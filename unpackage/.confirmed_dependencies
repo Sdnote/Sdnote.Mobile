@@ -1,11 +1,21 @@
 {
-  "index.html": {
-    "href": "index.html",
-    "resources": [
-      "js/mui.min.js",
-      "css/mui.min.css"
-    ],
-    "refer": [],
-    "priority": 0
-  }
+	"index.html": {
+		"href": "index.html",
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"tab-webview-subpage-about.html",
+			"tab-webview-subpage-setting.html",
+			"tab-webview-subpage-remind.html"
+		],
+		"refer": [
+			"tab-webview-subpage-about.html",
+			"tab-webview-subpage-setting.html",
+			"tab-webview-subpage-chat.html",
+			"tab-webview-subpage-contact.html",
+			"tab-webview-subpage-remind.html",
+			"tab-webview-subpage-note.html"
+		],
+		"priority": 0
+	}
 }

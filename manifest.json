@@ -133,9 +133,17 @@
 				"resources": [
 					"js/mui.min.js",
 					"css/mui.min.css",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"tab-webview-subpage-about.html",
+					"tab-webview-subpage-setting.html",
+					"tab-webview-subpage-remind.html"
 				],
-				"priority": 0
+				"priority": 0,
+				"refer": [
+					"tab-webview-subpage-chat.html",
+					"tab-webview-subpage-contact.html",
+					"tab-webview-subpage-note.html"
+				]
 			}
 		},
 		"idle": {
