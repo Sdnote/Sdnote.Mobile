@@ -39,7 +39,33 @@
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
-			mui.init();
+			mui.init();  
+			
+			//检索首次启动的 guide
+            mui.plusReady(function() {  
+                /**  
+                 * 获取本地存储中launchFlag的值  
+                 * http://www.html5plus.org/doc/zh_cn/storage.html#plus.storage.getItem  
+                 * 若存在，说明不是首次启动，直接进入首页；  
+                 * 若不存在，说明是首次启动，进入引导页；  
+                 */  
+                var launchFlag = plus.storage.getItem("launchFlag");  
+                if(launchFlag) {  
+                    mui.openWindow({  
+                        url: "main.html",  
+                        id: "main",  
+                        extras: {  
+                            mark: "index" //额外的参数，仅仅是个标识，实际开发中不用；  
+                        }  
+                    });  
+                } else {  
+                    mui.openWindow({  
+                        url: "guide.html",  
+                        id: "guide"  
+                    });  
+                }  
+            });  
+            
 			var subpages = ['tab-webview-subpage-remind.html', 'tab-webview-subpage-note.html', 'tab-webview-subpage-setting.html'];
 			var subpage_style = {
 				top: '45px',

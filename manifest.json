@@ -136,7 +136,8 @@
 				"refer": [
 					"tab-webview-subpage-chat.html",
 					"tab-webview-subpage-contact.html",
-					"tab-webview-subpage-note.html"
+					"tab-webview-subpage-note.html",
+					"guide.html"
 				]
 			}
 		},
