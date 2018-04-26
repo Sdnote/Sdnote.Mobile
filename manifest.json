@@ -139,6 +139,13 @@
 					"tab-webview-subpage-note.html",
 					"guide.html"
 				]
+			},
+			"tab-webview-subpage-setting.html": {
+				"resources": [],
+				"refer": [
+					"test.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
