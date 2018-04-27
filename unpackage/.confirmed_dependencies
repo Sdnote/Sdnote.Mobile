@@ -21,7 +21,9 @@
 	},
 	"tab-webview-subpage-setting.html": {
 		"refer": [
-			"test.html"
+			"test.html",
+			"reg.html",
+			"login.html"
 		]
 	}
 }

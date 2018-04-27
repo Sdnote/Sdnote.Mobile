@@ -143,7 +143,9 @@
 			"tab-webview-subpage-setting.html": {
 				"resources": [],
 				"refer": [
-					"test.html"
+					"test.html",
+					"reg.html",
+					"login.html"
 				],
 				"priority": 0
 			}
