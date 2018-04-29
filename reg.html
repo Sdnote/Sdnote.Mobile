@@ -59,10 +59,6 @@
 					<label>邮箱</label>
 					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱（选）">
 				</div>
-				<div class="mui-input-row">
-					<label>手机号</label>
-					<input id='phone' type="phone" class="mui-input-clear mui-input" placeholder="请输入手机号（选）">
-				</div>
 			</form>
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
@@ -83,7 +79,6 @@
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
-					var phoneBox = doc.getElementById("phone");
 					regButton.addEventListener('tap', function(event) {
 						var regInfo = {
 							account: accountBox.value,

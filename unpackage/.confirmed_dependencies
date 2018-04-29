@@ -25,5 +25,10 @@
 			"reg.html",
 			"login.html"
 		]
+	},
+	"reg.html": {
+		"refer": [
+			"login.html"
+		]
 	}
 }

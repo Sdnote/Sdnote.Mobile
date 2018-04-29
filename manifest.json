@@ -148,6 +148,13 @@
 					"login.html"
 				],
 				"priority": 0
+			},
+			"reg.html": {
+				"resources": [],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
