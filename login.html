@@ -132,16 +132,17 @@
 				var user = {};
 				var attr1 = "userName";
 				var attr2 = "password";
-				user[attr1] = document.getElementById("account").text;
-				user[attr2] = document.getElementById("password").text;
+				user[attr1] = document.getElementById("account").value;
+				user[attr2] = document.getElementById("password").value;
 				//console.log(user);
 				//参数
 				//var data = {"userName":"12345","password":"494296145"};
-				console.log(JSON.stringify(user));
+				
 				//设置请求头
 				xhr.setRequestHeader('Content-Type','application/json');
 				// 发送HTTP请求
-				xhr.send(JSON.stringify(user));	
+				//xhr.send(JSON.stringify(user));	
+				xhr.send(user);
 				
 				xhr.onreadystatechange = function (){
 					if ( xhr.status == 200 ) {
