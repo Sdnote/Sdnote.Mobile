@@ -112,7 +112,7 @@
 			</form>
 			<div class="mui-content-padded">
 				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" onclick="login()">登录</button>
-				<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				<div class="link-area"><a id='reg' onclick="toReg()">注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
 				</div>
 			</div>
 			<div class="mui-content-padded oauth-area">
@@ -183,21 +183,31 @@
 						
 						plus.webview.show(h); // 显示窗口
 					}
-					else
+					else if(uState == 400)
 					{
-						plus.nativeUI.toast("登陆异常! Code"+uState);
+						plus.nativeUI.toast("登陆异常! Code"+uState+ " 此用户尚未注册！");
+					}
+					else if(uState == 401)
+					{
+						plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
 					}
 
 				} 
 				else 
 				{
 					//
-					plus.nativeUI.toast("登陆出错");
+					plus.nativeUI.toast("请求异常");
 					//console.log( "xhr请求失败："+xhr.status );
 				}
 			}
 		}
 			
+			function toReg(){
+				mui.openWindow({
+					url:'reg.html',
+					id:'reg.html'
+				});
+			}
 		</script>
 	</body>
 

@@ -35,7 +35,8 @@
 	},
 	"login/login.html": {
 		"refer": [
-			"index.html"
+			"index.html",
+			"login/reg.html"
 		]
 	}
 }

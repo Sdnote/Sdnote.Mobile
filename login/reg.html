@@ -45,7 +45,7 @@
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号(五位以上字符)">
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
@@ -59,12 +59,13 @@
 					<label>邮箱</label>
 					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
 				</div>
+				<div class="mui-input-row">
+					<label>手机</label>
+					<input id='phone' type="text" class="mui-input-clear mui-input" placeholder="请输入手机">
+				</div>
 			</form>
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
-			</div>
-			<div class="mui-content-padded">
-				<p>注册真实可用，注册成功后的用户可用于登录，但是示例程序并未和服务端交互，用户相关数据仅存储于本地。</p>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
@@ -79,31 +80,76 @@
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
+					var phoneBox = doc.getElementById('phone');
 					regButton.addEventListener('tap', function(event) {
 						var regInfo = {
 							account: accountBox.value,
 							password: passwordBox.value,
-							email: emailBox.value
+							email: emailBox.value,
+							phone: phoneBox.value,
+							age : "0",
+							sex : 0
 						};
 						var passwordConfirm = passwordConfirmBox.value;
 						if (passwordConfirm != regInfo.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
-						app.reg(regInfo, function(err) {
-							if (err) {
-								plus.nativeUI.toast(err);
-								return;
+						xhr.onreadystatechange = function (){
+						if ( xhr.status == 200 ) 
+						{
+							//console.log("xhr请求成功："+xhr.responseText);
+							//document.getElementById("test").textContent=xhr.responseText;	
+							//格式化获取的值
+							var userInfo = eval("("+xhr.responseText+")");
+							var uName = eval('userInfo.'+'userName');  
+							var uToken = eval('userInfo.'+'token');
+							//状态码
+							var uState = eval('userInfo.'+'state');
+							//console.log(" 状态码"+uState);
+							
+							//状态判断
+							if(uState == 200)
+							{
+								//清零缓存
+								void plus.storage.clear();
+								//console.log(plus.storage.getLength());
+								//存入用户 userName 和 token
+								plus.storage.setItem('uName',uName);
+								plus.storage.setItem('uToken',uToken);
+								//console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
+								//console.log(plus.storage.getLength());
+								
+								//打印登陆信息
+								plus.nativeUI.toast('你好！'+ uName);
+								//console.log(uToken);
+								
+								//跳转页面
+								var ws=plus.webview.currentWebview();
+								  //console.log('flag');
+								plus.webview.close(ws);		
+								var h=plus.webview.getLaunchWebview();
+								//console.log('flag'+h.getURL());
+								
+								plus.webview.show(h); // 显示窗口
 							}
-							plus.nativeUI.toast('注册成功');
-							$.openWindow({
-								url: 'login.html',
-								id: 'login',
-								show: {
-									aniShow: 'pop-in'
-								}
-							});
-						});
+							else if(uState == 400)
+							{
+								plus.nativeUI.toast("登陆异常! Code"+uState+ " 此用户尚未注册！");
+							}
+							else if(uState == 401)
+							{
+								plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
+							}
+		
+						} 
+						else 
+						{
+							//
+							plus.nativeUI.toast("请求异常");
+							//console.log( "xhr请求失败："+xhr.status );
+						}
+					}
 					});
 				});
 			}(mui, document));
