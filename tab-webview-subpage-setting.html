@@ -32,17 +32,17 @@
 			</div>-->
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" onClick="toCes()">
+					<a class="mui-navigate-right" id="ces" onClick="toCes()">
 						ces 
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" onClick="toReg()">
+					<a class="mui-navigate-right" id="reg" onClick="toReg()">
 						注册
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" onClick="toLog()">
+					<a class="mui-navigate-right" id="login" onClick="toLog()">
 						login
 					</a>
 				</li>
@@ -67,8 +67,24 @@
 	<script src="js/mui.min.js"></script>
 	<script>
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack:true //启用右滑关闭功能			
 		});
+		
+		mui.plusReady(function(){ 
+					
+			if(plus.storage.getItem('uName') == "null")
+			{
+				console.log("error");
+			}
+			else
+			{
+				console.log(plus.storage.getItem('uName'));
+			}
+		});
+		
+		
+		
+		
 		document.getElementById("about").addEventListener('tap',function () {
 			//获得主页面的webview
 			var main = plus.webview.currentWebview().parent();
