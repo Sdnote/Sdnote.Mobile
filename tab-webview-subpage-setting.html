@@ -81,13 +81,17 @@
 		});
 		
 		function toReg(){
-			this.openWindow({
-				url: 'login.html',
-				id: 'login',
-				show: {
-					aniShow: 'pop-in'
-				}
-			})
-		};
+			var view = plus.webview.open(
+				'login/reg.html',
+				'reg'
+			);
+		}
+		
+		function toLog(){
+			var view = plus.webview.open(
+				'login/login.html',
+				'login'
+			);
+		}
 	</script>
 </html>

@@ -23,7 +23,9 @@
 		"refer": [
 			"test.html",
 			"reg.html",
-			"login.html"
+			"login.html",
+			"login/login.html",
+			"login/reg.html"
 		]
 	},
 	"reg.html": {
