@@ -165,6 +165,13 @@
 					"login/reg.html"
 				],
 				"priority": 0
+			},
+			"login/reg.html": {
+				"resources": [],
+				"refer": [
+					"login/login.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

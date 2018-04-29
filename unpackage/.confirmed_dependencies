@@ -38,5 +38,10 @@
 			"index.html",
 			"login/reg.html"
 		]
+	},
+	"login/reg.html": {
+		"refer": [
+			"login/login.html"
+		]
 	}
 }

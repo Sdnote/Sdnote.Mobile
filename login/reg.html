@@ -83,9 +83,9 @@
 					var phoneBox = doc.getElementById('phone');
 					regButton.addEventListener('tap', function(event) {
 						var regInfo = {
-							account: accountBox.value,
+							userName: accountBox.value,
 							password: passwordBox.value,
-							email: emailBox.value,
+							Email: emailBox.value,
 							phone: phoneBox.value,
 							age : "0",
 							sex : 0
@@ -95,58 +95,58 @@
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
+						
+						//处理请求
+						var xhr = new plus.net.XMLHttpRequest();
+						//预处理请求
+						xhr.open("POST", "http://dstantside.com/Sdnote/api/Login/register");
+				
+						
+						//设置请求头
+						xhr.setRequestHeader('Content-Type','application/json');
+						// 发送HTTP请求
+						//xhr.send(JSON.stringify(user));	
+						xhr.send(regInfo);
+						
+						//处理返回值
 						xhr.onreadystatechange = function (){
 						if ( xhr.status == 200 ) 
 						{
-							//console.log("xhr请求成功："+xhr.responseText);
-							//document.getElementById("test").textContent=xhr.responseText;	
-							//格式化获取的值
-							var userInfo = eval("("+xhr.responseText+")");
-							var uName = eval('userInfo.'+'userName');  
-							var uToken = eval('userInfo.'+'token');
-							//状态码
-							var uState = eval('userInfo.'+'state');
+							var re = eval("("+xhr.responseText+")");
+							console.log(re);
+							var rState = eval('re.'+'state');
+							var rName = eval('re.'+'userName');
+							var rEmail = eval('re.'+'Eamil');
+							var rPhone = eval('re.'+'phone');
 							//console.log(" 状态码"+uState);
-							
+								
 							//状态判断
-							if(uState == 200)
+							if(rState == 200)
 							{
-								//清零缓存
-								void plus.storage.clear();
-								//console.log(plus.storage.getLength());
-								//存入用户 userName 和 token
-								plus.storage.setItem('uName',uName);
-								plus.storage.setItem('uToken',uToken);
-								//console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
-								//console.log(plus.storage.getLength());
-								
-								//打印登陆信息
-								plus.nativeUI.toast('你好！'+ uName);
-								//console.log(uToken);
-								
-								//跳转页面
-								var ws=plus.webview.currentWebview();
-								  //console.log('flag');
-								plus.webview.close(ws);		
-								var h=plus.webview.getLaunchWebview();
-								//console.log('flag'+h.getURL());
-								
-								plus.webview.show(h); // 显示窗口
+								console.log( "xhr请求成功："+xhr.responseText);
+
+								plus.nativeUI.toast('注册成功');
+								$.openWindow({
+								    url: 'login.html',
+								    id: 'login',
+								    show: {
+								        aniShow: 'pop-in'
+								    }
+								});
 							}
-							else if(uState == 400)
-							{
-								plus.nativeUI.toast("登陆异常! Code"+uState+ " 此用户尚未注册！");
-							}
-							else if(uState == 401)
-							{
-								plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
-							}
-		
+							else if(rName == "false")
+							{plus.nativeUI.toast('用户名已存在');}
+							else if(rEmail == "false")
+							{plus.nativeUI.toast('邮箱已被注册');}
+							else if(rPhone == "false")
+							{plus.nativeUI.toast('手机号已被注册');}
+							else
+							{plus.nativeUI.toast('注册出错，请重试！');}
 						} 
 						else 
 						{
 							//
-							plus.nativeUI.toast("请求异常");
+							plus.nativeUI.toast("注册出错，请重试！");
 							//console.log( "xhr请求失败："+xhr.status );
 						}
 					}
