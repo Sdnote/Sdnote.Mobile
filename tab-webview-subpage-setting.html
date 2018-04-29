@@ -22,26 +22,27 @@
 	</head>
 
 	<body>
-		<!--<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">设置</h1>
-		</header>-->
 		<div class="mui-content">
-			<!--<div class="title">
-				这是webview模式选项卡中的第4个子页面，该页面展示一个常见的设置示例
-			</div>-->
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" id="ces" onClick="toCes()">
+				<li class="mui-table-view-cell mui-media" id="l_uname">
+					<a class="mui-navigate-right" href="#account">
+						<div class="mui-media-body">
+							Hello Sdnote
+							<p class='mui-ellipsis' id="t_uName"></p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="l_ces">
+					<a class="mui-navigate-right"  onClick="toCes()">
 						ces 
 					</a>
 				</li>
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" id="l_reg">
 					<a class="mui-navigate-right" id="reg" onClick="toReg()">
 						注册
 					</a>
 				</li>
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" id="l_log">
 					<a class="mui-navigate-right" id="login" onClick="toLog()">
 						login
 					</a>
@@ -49,14 +50,14 @@
 			</ul>
 			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a id="about" class="mui-navigate-right">
+					<a id="about" class="mui-navigate-right" onclick="toAbo()">
 						关于mui
 					</a>
 				</li>
 			</ul>
 			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a style="text-align: center;color: #FF3B30;">
+					<a style="text-align: center;color: #FF3B30;" onclick="out()">
 						退出登录
 					</a>
 				</li>
@@ -70,28 +71,37 @@
 			swipeBack:true //启用右滑关闭功能			
 		});
 		
+		//判断登录否，显示不同信息
 		mui.plusReady(function(){ 
-					
+			//判断是否登录（UName/Utoken）
 			if(plus.storage.getItem('uName') == "null")
 			{
-				console.log("error");
+				var target = document.getElementById("l_uname");
+				target.style.display="none";
 			}
 			else
 			{
-				console.log(plus.storage.getItem('uName'));
+				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');
+				
+				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
+				var target = document.getElementById("l_ces");
+				target.style.display="none";
+				var target = document.getElementById("l_reg");
+				target.style.display="none";
+				var target = document.getElementById("l_log");
+				target.style.display="none";
+				
 			}
 		});
 		
 		
+		function out(){
+			
+		}
 		
-		
-		document.getElementById("about").addEventListener('tap',function () {
-			//获得主页面的webview
-			var main = plus.webview.currentWebview().parent();
-			//触发主页面的gohome事件
-			mui.fire(main,'gohome');
-		});
-		//mui.plusReady();
+		function toAbo(){
+			
+		}
 		
 		function toReg(){
 			mui.openWindow({
