@@ -161,17 +161,17 @@
 					var userName = eval('userInfo.'+'userName');  
 					
 					//打印登陆信息
-				    plus.nativeUI.toast('你好！'+ userName);
-				    
-				    //跳转页面
-				  var ws=plus.webview.currentWebview();
-				  console.log('flag');
-   				 plus.webview.close(ws);
+					plus.nativeUI.toast('你好！'+ userName);
 					
-				
-				var h=plus.webview.getLaunchWebview();
-				console.log('flag'+h.getURL());
-    				plus.webview.show(h); // 显示窗口
+					//跳转页面
+					var ws=plus.webview.currentWebview();
+					  //console.log('flag');
+					plus.webview.close(ws);
+						
+					
+					var h=plus.webview.getLaunchWebview();
+					//console.log('flag'+h.getURL());
+					plus.webview.show(h); // 显示窗口
 
 				} else {
 					//
