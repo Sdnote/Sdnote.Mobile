@@ -134,11 +134,11 @@
 								    }
 								});
 							}
-							else if(rName == "false")
+							if(rName == "false")
 							{plus.nativeUI.toast('用户名已存在');}
-							else if(rEmail == "false")
+							if(rEmail == "false")
 							{plus.nativeUI.toast('邮箱已被注册');}
-							else if(rPhone == "false")
+							if(rPhone == "false")
 							{plus.nativeUI.toast('手机号已被注册');}
 							else
 							{plus.nativeUI.toast('注册出错，请重试！');}

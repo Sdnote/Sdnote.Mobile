@@ -155,43 +155,46 @@
 					var uName = eval('userInfo.'+'userName');  
 					var uToken = eval('userInfo.'+'token');
 					//状态码
-					var uState = eval('userInfo.'+'state');
+					var uState = parseInt(eval('userInfo.'+'state'));
 					//console.log(" 状态码"+uState);
 					
 					//状态判断
-					if(uState == 200)
+					switch(uState)
 					{
-						//清零缓存
-						void plus.storage.clear();
-						//console.log(plus.storage.getLength());
-						//存入用户 userName 和 token
-						plus.storage.setItem('uName',uName);
-						plus.storage.setItem('uToken',uToken);
-						//console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
-						//console.log(plus.storage.getLength());
+						case 200:
+							//清零缓存
+							void plus.storage.clear();
+							//console.log(plus.storage.getLength());
+							//存入用户 userName 和 token
+							plus.storage.setItem('uName',uName);
+							plus.storage.setItem('uToken',uToken);
+							//console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
+							//console.log(plus.storage.getLength());
+							
+							//打印登陆信息
+							plus.nativeUI.toast('你好！'+ uName);
+							//console.log(uToken);
+							
+							//跳转页面
+							var ws=plus.webview.currentWebview();
+							  //console.log('flag');
+							plus.webview.close(ws);		
+							var h=plus.webview.getLaunchWebview();
+							//console.log('flag'+h.getURL());
+							
+							plus.webview.show(h); // 显示窗口
+							break;
 						
-						//打印登陆信息
-						plus.nativeUI.toast('你好！'+ uName);
-						//console.log(uToken);
-						
-						//跳转页面
-						var ws=plus.webview.currentWebview();
-						  //console.log('flag');
-						plus.webview.close(ws);		
-						var h=plus.webview.getLaunchWebview();
-						//console.log('flag'+h.getURL());
-						
-						plus.webview.show(h); // 显示窗口
+						case 400:
+							plus.nativeUI.toast("登陆异常! Code"+uState+ " 此用户尚未注册！");
+							break;
+							
+						case 401:
+							plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
+							break;
+						default:
+							plus.nativeUI.toast("请求异常");
 					}
-					else if(uState == 400)
-					{
-						plus.nativeUI.toast("登陆异常! Code"+uState+ " 此用户尚未注册！");
-					}
-					else if(uState == 401)
-					{
-						plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
-					}
-
 				} 
 				else 
 				{
@@ -205,7 +208,10 @@
 			function toReg(){
 				mui.openWindow({
 					url:'reg.html',
-					id:'reg.html'
+					id:'reg.html',
+				    show: {
+				        aniShow: 'pop-in'
+				    }
 				});
 			}
 		</script>
