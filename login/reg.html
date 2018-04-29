@@ -120,10 +120,14 @@
 							var rPhone = eval('re.'+'phone');
 							//console.log(" 状态码"+uState);
 								
+							rState = parseInt(rState);
+							//console.log(" 状态码"+uState);
+							
 							//状态判断
-							if(rState == 200)
+							switch(rState)
 							{
-								console.log( "xhr请求成功："+xhr.responseText);
+								case 200:
+								//console.log( "xhr请求成功："+xhr.responseText);
 
 								plus.nativeUI.toast('注册成功');
 								$.openWindow({
@@ -133,15 +137,11 @@
 								        aniShow: 'pop-in'
 								    }
 								});
+								
+								case 400:
+								//wait
 							}
-							if(rName == "false")
-							{plus.nativeUI.toast('用户名已存在');}
-							if(rEmail == "false")
-							{plus.nativeUI.toast('邮箱已被注册');}
-							if(rPhone == "false")
-							{plus.nativeUI.toast('手机号已被注册');}
-							else
-							{plus.nativeUI.toast('注册出错，请重试！');}
+							
 						} 
 						else 
 						{
