@@ -125,9 +125,9 @@
 		<script>
 			mui.init();
 			mui.plusReady(function(){
-			var ws=plus.webview.currentWebview();//获取当前页面所属的Webview窗口对象
-		   console.log( "窗口标识: "+ws.id );
-		   console.log( "当前Webview窗口："+ws.getURL() );
+//			var ws=plus.webview.currentWebview();//获取当前页面所属的Webview窗口对象
+//		   console.log( "窗口标识: "+ws.id );
+//		   console.log( "当前Webview窗口："+ws.getURL() );
 			});
 			
 		   
@@ -154,7 +154,7 @@
 			
 			xhr.onreadystatechange = function (){
 				if ( xhr.status == 200 ) {
-					console.log( "xhr请求成功："+xhr.responseText);
+					console.log("xhr请求成功："+xhr.responseText);
 					//document.getElementById("test").textContent=xhr.responseText;	
 					//格式化获取的值
 					var userInfo = eval("("+xhr.responseText+")");
@@ -166,12 +166,11 @@
 					//跳转页面
 					var ws=plus.webview.currentWebview();
 					  //console.log('flag');
-					plus.webview.close(ws);
-						
-					
+					plus.webview.close(ws);		
 					var h=plus.webview.getLaunchWebview();
 					//console.log('flag'+h.getURL());
 					plus.webview.show(h); // 显示窗口
+					
 
 				} else {
 					//

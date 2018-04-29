@@ -11,55 +11,21 @@
 	<script src="js/mui.min.js"></script>
 	
 		<script type="text/javascript">
-		  document.addEventListener('plusready', function(){
-				var xhr = new plus.net.XMLHttpRequest();
-				//预处理请求
-				xhr.open("POST", "http://dstantside.com/Sdnote/api/Login/Login");
-				//参数
-				var data = {"userName":"12345","password":"494296145"};
-				//设置请求头
-				xhr.setRequestHeader('Content-Type','application/json');
-				// 发送HTTP请求
-				xhr.send(data);	
-				
-				xhr.onreadystatechange = function (){
-					if ( xhr.status == 200 ) {
-								console.log( "xhr请求成功："+xhr.responseText);
-								document.getElementById("test").textContent=xhr.responseText;							
-							} else {
-								console.log( "xhr请求失败："+xhr.status );
-							}
-				}
-				
-				
-				
-				//请求状态检测
-//				xhr.onreadystatechange = function () {
-//					switch ( xhr.readyState ) {
-//						case 0:
-//							console.log( "xhr请求已初始化" );
-//						break;
-//						case 1:
-//							console.log( "xhr请求已打开" );
-//						break;
-//						case 2:
-//							console.log( "xhr请求已发送" );
-//						break;
-//						case 3:
-//							console.log( "xhr请求已响应");
-//							break;
-//						case 4:
-//							if ( xhr.status == 200 ) {
-//								alert( "xhr请求成功："+xhr.responseText );
-//							} else {
-//								console.log( "xhr请求失败："+xhr.status );
-//							}
-//							break;
-//						default :
-//							break;
-//					}
-//				}			
-			}, false );
+		  
+			
+			mui.plusReady(function(){
+				void plus.storage.clear();
+				var total = plus.storage.getLength();
+			document.getElementById("test").textContent = total;
+			
+			});
+			
+			mui.plusReady(function(){
+				plus.storage.setItem('name','hcoder');
+			var name = plus.storage.getItem('name');
+			mui.toast(name);
+			plus.storage.removeItem('name');
+			});
         </script>
 	</body>
 
