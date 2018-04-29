@@ -22,7 +22,7 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
+		<div class="mui-content" id="body">
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media" id="l_uname">
 					<a class="mui-navigate-right" href="#account">
@@ -68,21 +68,30 @@
 	<script src="js/mui.min.js"></script>
 	<script>
 		mui.init({
+			
 			swipeBack:true //启用右滑关闭功能			
 		});
 		
 		//判断登录否，显示不同信息
 		mui.plusReady(function(){ 
 			//判断是否登录（UName/Utoken）
-			if(plus.storage.getItem('uName') == "null")
+			if(plus.storage.getItem('uName') == null)
 			{
+				console.log("没有登录");
+				//reflash();
 				var target = document.getElementById("l_uname");
 				target.style.display="none";
+				var target = document.getElementById("l_ces");
+				target.style.display="none";
+				var target = document.getElementById("l_reg");
+				target.style.display="block";
+				var target = document.getElementById("l_log");
+				target.style.display="block";
 			}
 			else
 			{
-				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');
-				
+				//reflash();
+				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');			
 				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
 				var target = document.getElementById("l_ces");
 				target.style.display="none";
@@ -96,7 +105,15 @@
 		
 		
 		function out(){
+			void plus.storage.clear();
+			reflash();
 			
+		}
+		function reflash(){
+			var wobj = plus.webview.getWebviewById("tab-webview-subpage-setting.html");
+			wobj.reload(true);
+			
+			//window.location.reload()
 		}
 		
 		function toAbo(){
