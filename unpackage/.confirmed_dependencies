@@ -32,5 +32,10 @@
 		"refer": [
 			"login.html"
 		]
+	},
+	"login/login.html": {
+		"refer": [
+			"index.html"
+		]
 	}
 }

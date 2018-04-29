@@ -124,40 +124,62 @@
 		<script src="../js/app.js"></script>
 		<script>
 			mui.init();
-				function login(){
-				var xhr = new plus.net.XMLHttpRequest();
-				//预处理请求
-				xhr.open("POST", "http://dstantside.com/Sdnote/api/Login/Login");
-		
-				//处理值
-				var user = {};
-				var attr1 = "userName";
-				var attr2 = "password";
-				user[attr1] = document.getElementById("account").value;
-				user[attr2] = document.getElementById("password").value;
-				//console.log(user);
-				//参数
-				//var data = {"userName":"12345","password":"494296145"};
+			mui.plusReady(function(){
+			var ws=plus.webview.currentWebview();//获取当前页面所属的Webview窗口对象
+		   console.log( "窗口标识: "+ws.id );
+		   console.log( "当前Webview窗口："+ws.getURL() );
+			});
+			
+		   
+			function login(){
+			var xhr = new plus.net.XMLHttpRequest();
+			//预处理请求
+			xhr.open("POST", "http://dstantside.com/Sdnote/api/Login/Login");
+	
+			//处理值
+			var user = {};
+			var attr1 = "userName";
+			var attr2 = "password";
+			user[attr1] = document.getElementById("account").value;
+			user[attr2] = document.getElementById("password").value;
+			//console.log(user);
+			//参数
+			//var data = {"userName":"12345","password":"494296145"};
+			
+			//设置请求头
+			xhr.setRequestHeader('Content-Type','application/json');
+			// 发送HTTP请求
+			//xhr.send(JSON.stringify(user));	
+			xhr.send(user);
+			
+			xhr.onreadystatechange = function (){
+				if ( xhr.status == 200 ) {
+					console.log( "xhr请求成功："+xhr.responseText);
+					//document.getElementById("test").textContent=xhr.responseText;	
+					//格式化获取的值
+					var userInfo = eval("("+xhr.responseText+")");
+					var userName = eval('userInfo.'+'userName');  
+					
+					//打印登陆信息
+				    plus.nativeUI.toast('你好！'+ userName);
+				    
+				    //跳转页面
+				  var ws=plus.webview.currentWebview();
+				  console.log('flag');
+   				 plus.webview.close(ws);
+					
 				
-				//设置请求头
-				xhr.setRequestHeader('Content-Type','application/json');
-				// 发送HTTP请求
-				//xhr.send(JSON.stringify(user));	
-				xhr.send(user);
-				
-				xhr.onreadystatechange = function (){
-					if ( xhr.status == 200 ) {
-						console.log( "xhr请求成功："+xhr.responseText);
-						//document.getElementById("test").textContent=xhr.responseText;	
-						var userInfo = {JSON.stringify(xhr.responseText)};
-						plus.nativeUI.toast('你好！'+userInfo);
-					} else {
-						//
-						plus.nativeUI.toast("登陆失败");
-						console.log( "xhr请求失败："+xhr.status );
-					}
+				var h=plus.webview.getLaunchWebview();
+				console.log('flag'+h.getURL());
+    				plus.webview.show(h); // 显示窗口
+
+				} else {
+					//
+					plus.nativeUI.toast("登陆出错");
+					console.log( "xhr请求失败："+xhr.status );
 				}
 			}
+		}
 			
 		</script>
 	</body>

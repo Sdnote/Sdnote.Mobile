@@ -157,6 +157,13 @@
 					"login.html"
 				],
 				"priority": 0
+			},
+			"login/login.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
