@@ -148,7 +148,9 @@
 				xhr.onreadystatechange = function (){
 					if ( xhr.status == 200 ) {
 						console.log( "xhr请求成功："+xhr.responseText);
-						//document.getElementById("test").textContent=xhr.responseText;							
+						//document.getElementById("test").textContent=xhr.responseText;	
+						var userInfo = {JSON.stringify(xhr.responseText)};
+						plus.nativeUI.toast('你好！'+userInfo);
 					} else {
 						//
 						plus.nativeUI.toast("登陆失败");
