@@ -108,6 +108,7 @@
 						//xhr.send(JSON.stringify(user));	
 						xhr.send(regInfo);
 						
+						
 						//处理返回值
 						xhr.onreadystatechange = function (){
 						if ( xhr.status == 200 ) 
@@ -127,19 +128,33 @@
 							switch(rState)
 							{
 								case 200:
-								//console.log( "xhr请求成功："+xhr.responseText);
-
-								plus.nativeUI.toast('注册成功');
-								$.openWindow({
-								    url: 'login.html',
-								    id: 'login',
-								    show: {
-								        aniShow: 'pop-in'
-								    }
-								});
-								
+									plus.nativeUI.toast('注册成功');
+									$.openWindow({
+									    url: 'login.html',
+									    id: 'login',
+									    show: {
+									        aniShow: 'pop-in'
+									    }
+									});
+									break;
 								case 400:
-								//wait
+									//erro  
+									plus.nativeUI.toast('注册异常! Code'+uState+ ' 注册失败！');
+									break;
+								case 401:
+									//用户已存在
+									plus.nativeUI.toast('注册异常! Code'+uState+ ' 用户名已存在！');
+									break;
+								case 402:
+									//邮箱已注册
+									plus.nativeUI.toast('注册异常! Code'+uState+ ' 邮箱已注册');
+									break;
+								case 403:
+									// 手机号已注册
+									plus.nativeUI.toast('注册异常! Code'+uState+ ' 手机号已注册');
+									break;
+								default:
+									plus.nativeUI.toast("Error：请求异常");
 							}
 							
 						} 
