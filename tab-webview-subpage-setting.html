@@ -32,11 +32,6 @@
 						</div>
 					</a>
 				</li>
-				<li class="mui-table-view-cell" id="l_ces">
-					<a class="mui-navigate-right"  onClick="toCes()">
-						ces 
-					</a>
-				</li>
 				<li class="mui-table-view-cell" id="l_reg">
 					<a class="mui-navigate-right" id="reg" onClick="toReg()">
 						注册
@@ -44,7 +39,7 @@
 				</li>
 				<li class="mui-table-view-cell" id="l_log">
 					<a class="mui-navigate-right" id="login" onClick="toLog()">
-						login
+						登陆
 					</a>
 				</li>
 			</ul>
@@ -78,26 +73,17 @@
 			{
 				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');			
 				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
-				var target = document.getElementById("l_ces");
-				target.style.display="none";
-				var target = document.getElementById("l_reg");
-				target.style.display="none";
-				var target = document.getElementById("l_log");
-				target.style.display="none";	
+				document.getElementById("l_reg").style.display="none";
+				document.getElementById("l_log").style.display="none";	
 				//refresh();
 			}
 			else
 			{
 				console.log("没有登录");
 				//refresh();
-				var target = document.getElementById("l_uname");
-				target.style.display="none";
-				var target = document.getElementById("l_ces");
-				target.style.display="none";
-				var target = document.getElementById("l_reg");
-				target.style.display="block";
-				var target = document.getElementById("l_log");
-				target.style.display="block";	
+				document.getElementById("l_uname")style.display="none";
+				document.getElementById("l_reg")style.display="block";
+				document.getElementById("l_log")style.display="block";	
 			}
 		});
 		
