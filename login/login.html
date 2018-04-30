@@ -192,6 +192,12 @@
 						case 401:
 							plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码错误！");
 							break;
+						case 402:
+							plus.nativeUI.toast("登陆异常! Code"+uState+ " 用户名不能为空！");
+							break;
+						case 403:
+							plus.nativeUI.toast("登陆异常! Code"+uState+ " 密码不能为空！");
+							break;				
 						default:
 							plus.nativeUI.toast("请求异常");
 					}
