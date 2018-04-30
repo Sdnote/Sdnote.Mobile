@@ -73,17 +73,22 @@
 			{
 				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');			
 				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
-				document.getElementById("l_reg").style.display="none";
-				document.getElementById("l_log").style.display="none";	
+				var target = document.getElementById("l_reg");
+				target.style.display="none";
+				var target = document.getElementById("l_log");
+				target.style.display="none";	
 				//refresh();
 			}
 			else
 			{
 				console.log("没有登录");
 				//refresh();
-				document.getElementById("l_uname")style.display="none";
-				document.getElementById("l_reg")style.display="block";
-				document.getElementById("l_log")style.display="block";	
+				var target = document.getElementById("l_uname");
+				target.style.display="none";
+				var target = document.getElementById("l_reg");
+				target.style.display="block";
+				var target = document.getElementById("l_log");
+				target.style.display="block";	
 			}
 		});
 		
@@ -123,14 +128,6 @@
 			});
 		}
 		
-		function toCes(){
-			mui.openWindow({
-				url:'test.html',
-				id:'/test.html',
-				show: {
-				        aniShow: 'pop-in'
-				}
-			});
-		}		
+		
 	</script>
 </html>
