@@ -153,8 +153,9 @@
 					//console.log("xhr请求成功："+xhr.responseText);
 					//document.getElementById("test").textContent=xhr.responseText;	
 					//格式化获取的值
-					var userInfo = eval("("+xhr.responseText+")");
+					var userInfo = eval('('+xhr.responseText+')');
 					var uName = eval('userInfo.'+'userName');  
+					var uId = eval('userInfo.'+'userID');
 					var uToken = eval('userInfo.'+'token');
 					//状态码
 					var uState = parseInt(eval('userInfo.'+'state'));
@@ -169,6 +170,7 @@
 							//console.log(plus.storage.getLength());
 							//存入用户 userName 和 token
 							plus.storage.setItem('uName',uName);
+							plus.storage.setItem('uId',uId);
 							plus.storage.setItem('uToken',uToken);
 							//console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
 							//console.log(plus.storage.getLength());

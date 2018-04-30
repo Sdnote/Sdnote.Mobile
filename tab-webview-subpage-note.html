@@ -59,11 +59,61 @@
 			
 			//初次加载获取列表并渲染
 			mui.plusReady(function(){
-				
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/Note/getAll");
+				//参数
+				var user = {};
+				var attr1 = "Token";
+				var attr2 = "UserID";
+				user[attr1] = plus.storage.getItem('uToken');
+				user[attr2] = plus.storage.getItem('uId'); 
+				//console.log(user[attr1]+" "+user[attr2]);
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(user);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	console.log(xhr.responseText);
+				      	var nState = eval(noteList.State);  
+						console.log(nState);
+						
+						switch(nState)
+						{
+							case 200:
+								//加载列表
+								var nData = eval(noteList.data);
+								//console.log(nData);
+								
+								
+								
+								
+//								for (var i in nData) {
+//									
+//							        console.log(nData[i].content);
+//							    }
+								break;
+							case 401:
+								//异常
+								plus.nativeUI.toast('用户异常，检查登陆！~');
+								break;
+							default:
+								plus.nativeUI.toast("Error：请求异常");
+						}
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}	
 			});
 			
 			
-			
+		
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -100,5 +150,4 @@
 			}
 		</script>
 	</body>
-
 </html>

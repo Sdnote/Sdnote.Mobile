@@ -72,12 +72,12 @@
 			if(plus.storage.getItem('uName') !== null)
 			{
 				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');			
-				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
+				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken')+" "+plus.storage.getItem('uId'));
 				var target = document.getElementById("l_reg");
 				target.style.display="none";
 				var target = document.getElementById("l_log");
 				target.style.display="none";	
-				//refresh();
+				
 			}
 			else
 			{
