@@ -108,6 +108,8 @@
 						//xhr.send(JSON.stringify(user));	
 						xhr.send(regInfo);
 						
+						//判断，若账号为空，则注册按钮不可用
+						
 						
 						//处理返回值
 						xhr.onreadystatechange = function (){
@@ -139,19 +141,19 @@
 									break;
 								case 400:
 									//erro  
-									plus.nativeUI.toast('注册异常! Code'+uState+ ' 注册失败！');
+									plus.nativeUI.toast('注册异常! Code'+rState+ ' 注册失败！');
 									break;
 								case 401:
 									//用户已存在
-									plus.nativeUI.toast('注册异常! Code'+uState+ ' 用户名已存在！');
+									plus.nativeUI.toast('注册异常! Code'+rState+ ' 用户名已存在！');
 									break;
 								case 402:
 									//邮箱已注册
-									plus.nativeUI.toast('注册异常! Code'+uState+ ' 邮箱已注册');
+									plus.nativeUI.toast('注册异常! Code'+rState+ ' 邮箱已注册');
 									break;
 								case 403:
 									// 手机号已注册
-									plus.nativeUI.toast('注册异常! Code'+uState+ ' 手机号已注册');
+									plus.nativeUI.toast('注册异常! Code'+rState+ ' 手机号已注册');
 									break;
 								default:
 									plus.nativeUI.toast("Error：请求异常");
