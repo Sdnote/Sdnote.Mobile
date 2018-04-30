@@ -41,42 +41,6 @@
 		                </div>
 		            </div>
 		        </li>
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>Note Tag ：<span>TAG</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">NOTE CONTENT</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>Note Tag ：<span>TAG</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">NOTE CONTENT</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>Note Tag ：<span>TAG</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">NOTE CONTENT</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>
 		    </ul>
 			</div>
 		</div>
@@ -89,12 +53,17 @@
 					down: {
 						callback: pulldownRefresh
 					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
 				}
 			});
+			
+			
+			//初次加载获取列表并渲染
+			mui.plusReady(function(){
+				
+			});
+			
+			
+			
 			/**
 			 * 下拉刷新具体业务实现
 			 */
