@@ -22,7 +22,7 @@
 	</head>
 
 	<body>
-		<div class="mui-content" id="body">
+		<div class="mui-content">
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media" id="l_uname">
 					<a class="mui-navigate-right" href="#account">
@@ -69,11 +69,17 @@
 	<script>
 		mui.init({
 			
-			swipeBack:true //启用右滑关闭功能			
+			swipeBack:true //启用右滑关闭功能		
+			
 		});
 		
 		//判断登录否，显示不同信息
 		mui.plusReady(function(){ 
+			for(var i=0;i<1;i++)
+			{
+				//reflash();
+				console.log("flag");
+			}
 			//判断是否登录（UName/Utoken）
 			if(plus.storage.getItem('uName') == null)
 			{
