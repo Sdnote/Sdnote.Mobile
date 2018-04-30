@@ -68,18 +68,14 @@
 	<script src="js/mui.min.js"></script>
 	<script>
 		mui.init({
-			
+
 			swipeBack:true //启用右滑关闭功能		
-			
-		});
-		
+
+		});		
+	
 		//判断登录否，显示不同信息
 		mui.plusReady(function(){ 
-			for(var i=0;i<1;i++)
-			{
-				//reflash();
-				console.log("flag");
-			}
+			
 			//判断是否登录（UName/Utoken）
 			if(plus.storage.getItem('uName') == null)
 			{
@@ -96,7 +92,7 @@
 			}
 			else
 			{
-				//reflash();
+				
 				document.getElementById("t_uName").textContent ="账号: "+plus.storage.getItem('uName');			
 				console.log(plus.storage.getItem('uName')+" "+plus.storage.getItem('uToken'));
 				var target = document.getElementById("l_ces");
@@ -105,17 +101,17 @@
 				target.style.display="none";
 				var target = document.getElementById("l_log");
 				target.style.display="none";
-				
+					
 			}
 		});
 		
 		
 		function out(){
 			void plus.storage.clear();
-			reflash();
+			refresh();
 			
 		}
-		function reflash(){
+		function refresh(){
 			var wobj = plus.webview.getWebviewById("tab-webview-subpage-setting.html");
 			wobj.reload(true);
 			
@@ -129,21 +125,30 @@
 		function toReg(){
 			mui.openWindow({
 				url:'/login/reg.html',
-				id:'/login/reg.html'
+				id:'/login/reg.html',
+				show: {
+				        aniShow: 'pop-in'
+				}
 			});
 		}
 		
 		function toLog(){
 			mui.openWindow({
 				url:'/login/login.html',
-				id:'/login/login.html'
+				id:'/login/login.html',
+				show: {
+				        aniShow: 'pop-in'
+				}
 			});
 		}
 		
 		function toCes(){
 			mui.openWindow({
 				url:'test.html',
-				id:'/test.html'
+				id:'/test.html',
+				show: {
+				        aniShow: 'pop-in'
+				}
 			});
 		}		
 	</script>
