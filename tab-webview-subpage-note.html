@@ -29,7 +29,7 @@
 					这是webview模式选项卡中的第2个子页面，该页面展示一个支持下拉刷新、上拉加载的消息列表
 				</div>-->
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-		        <li class="mui-table-view-cell">
+		        <!--<li class="mui-table-view-cell">
 		            <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-10">
 		                    <h4 class="mui-ellipsis">title</h4>
@@ -40,7 +40,7 @@
 		                    <span class="mui-h5">12:25</span>
 		                </div>
 		            </div>
-		        </li>
+		        </li>-->
 		    </ul>
 			</div>
 		</div>
@@ -89,14 +89,28 @@
 								//加载列表
 								var nData = eval(noteList.data);
 								//console.log(nData);
-								
-								
-								
-								
-//								for (var i in nData) {
-//									
-//							        console.log(nData[i].content);
-//							    }
+								for (var i in nData) {
+									
+									//接受数据
+									 var lnoteID = nData[i].noteID;
+							         var ltitle = nData[i].title;
+							         var lnoteTime = nData[i].noteTime.slice(5,16);
+							         var ltags = nData[i].tags;
+							         var lcontent = nData[i].content;
+							         
+							         console.log(lnoteID);
+							        //渲染列表
+							        var table = document.body.querySelector('.mui-table-view');
+									var cells = document.body.querySelectorAll('.mui-table-view-cell');
+									
+									var li = document.createElement('li');
+									li.className = 'mui-table-view-cell';
+									li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>标签 :' +ltags+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lnoteTime + '</span></div></div>';
+									//下拉刷新，新纪录插到最前面；
+									table.insertBefore(li, table.firstChild);
+							
+							        
+							    }
 								break;
 							case 401:
 								//异常
