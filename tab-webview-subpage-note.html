@@ -55,8 +55,9 @@
 					},
 				}
 			});
-			
-			
+			//全局变量数据源
+			var nData;
+			var f_dataIn;
 			//初次加载获取列表并渲染
 			mui.plusReady(function(){
 				var xhr = new plus.net.XMLHttpRequest();
@@ -81,36 +82,18 @@
 				      	var noteList = JSON.parse(xhr.responseText);
 				      	console.log(xhr.responseText);
 				      	var nState = eval(noteList.State);  
-						console.log(nState);
+						//console.log(nState);
+						//nData = eval(noteList.data);  
 						
 						switch(nState)
 						{
 							case 200:
-								//加载列表
-								var nData = eval(noteList.data);
+								//设置到本地存储
+								nData = eval(noteList.data); 
 								//console.log(nData);
-								for (var i in nData) {
-									
-									//接受数据
-									 var lnoteID = nData[i].noteID;
-							         var ltitle = nData[i].title;
-							         var lnoteTime = nData[i].noteTime.slice(5,16);
-							         var ltags = nData[i].tags;
-							         var lcontent = nData[i].content;
-							         
-							         console.log(lnoteID);
-							        //渲染列表
-							        var table = document.body.querySelector('.mui-table-view');
-									var cells = document.body.querySelectorAll('.mui-table-view-cell');
-									
-									var li = document.createElement('li');
-									li.className = 'mui-table-view-cell';
-									li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>标签 :' +ltags+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lnoteTime + '</span></div></div>';
-									//下拉刷新，新纪录插到最前面；
-									table.insertBefore(li, table.firstChild);
-							
-							        
-							    }
+								plus.storage.setItem('uNote',JSON.stringify(nData));
+								//console.log(JSON.parse(plus.storage.getItem('uNote')));
+								
 								break;
 							case 401:
 								//异常
@@ -123,7 +106,12 @@
 				        //console.log( "xhr请求失败："+xhr.status );
 				        plus.nativeUI.toast('异常！');
 				    }
-				}	
+				}
+				
+				//将数据存入nData，判断是否200，若为真，则调用加载时间
+				
+				load();
+				
 			});
 			
 			
@@ -133,34 +121,41 @@
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">title</h4><h5>remind time : 12:35</h5><p class="mui-h6 mui-ellipsis">remind content</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">12:25</span></div></div>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
+					//下拉加载
+					load();
+					
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 				}, 1000);
 			}
-			var count = 0;
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
+			
+			function load(){
+				var table = document.body.querySelector('.mui-table-view');
+				var cells = document.body.querySelectorAll('.mui-table-view-cell');
+				
+				var sData = JSON.parse(plus.storage.getItem('uNote'));
+				//操作dom 先删除，再加载
+			    while (table.hasChildNodes()) {
+			        table.removeChild(table.firstChild);				
+			    }
+				for (var i in sData) {
+					//接受数据
+					 var lnoteID = sData[i].noteID;
+			         var ltitle = sData[i].title;
+			         var lnoteTime = sData[i].noteTime.slice(5,16);
+			         var ltags = sData[i].tags;
+			         var lcontent = sData[i].content;
+			         
+			         //console.log(lnoteID);
+			        //渲染列表
+			        var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">title</h4><h5>remind time : 12:35</h5><p class="mui-h6 mui-ellipsis">remind content</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">12:25</span></div></div>';
-						table.appendChild(li);
-					}
-				}, 1000);
+
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>标签 :' +ltags+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lnoteTime + '</span></div></div>';
+					
+					table.insertBefore(li, table.firstChild);
+			    }
 			}
 		</script>
 	</body>
