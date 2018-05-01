@@ -80,9 +80,9 @@
 				    if ( xhr.status == 200 ) {
 				        //console.log( "xhr请求成功："+xhr.responseText);
 				      	var noteList = JSON.parse(xhr.responseText);
-				      	console.log(xhr.responseText);
+				      	//console.log(xhr.responseText);
 				      	var nState = eval(noteList.State);  
-						//console.log(nState);
+						console.log(nState);
 						//nData = eval(noteList.data);  
 						
 						switch(nState)

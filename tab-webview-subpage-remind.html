@@ -29,67 +29,19 @@
 					这是webview模式选项卡中的第2个子页面，该页面展示一个支持下拉刷新、上拉加载的消息列表
 				</div>-->
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>remind time ：<span>12:50</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">remind content</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>remind time ：<span>12:50</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">remind content</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>		        
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>remind time ：<span>12:50</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">remind content</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>		        
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>remind time ：<span>12:50</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">remind content</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>		        
-		        <li class="mui-table-view-cell">
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-10">
-		                    <h4 class="mui-ellipsis">title</h4>
-		                    <h5>remind time ：<span>12:50</span></h5>
-		                    <p class="mui-h6 mui-ellipsis">remind content</p>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                    <span class="mui-h5">12:25</span>
-		                </div>
-		            </div>
-		        </li>
-		    </ul>
+			        <!--<li class="mui-table-view-cell">
+			            <div class="mui-table">
+			                <div class="mui-table-cell mui-col-xs-10">
+			                    <h4 class="mui-ellipsis">title</h4>
+			                    <h5>remind time ：<span>12:50</span></h5>
+			                    <p class="mui-h6 mui-ellipsis">remind content</p>
+			                </div>
+			                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+			                    <span class="mui-h5">12:25</span>
+			                </div>
+			            </div>
+			        </li>-->
+		    		</ul>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -101,45 +53,108 @@
 					down: {
 						callback: pulldownRefresh
 					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
 				}
 			});
+			//全局变量数据源
+			var nData;
+			var f_dataIn;
+			//初次加载获取列表并渲染
+			mui.plusReady(function(){
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/remid/getAll");
+				//参数
+				var user = {};
+				var attr1 = "Token";
+				var attr2 = "UserID";
+				user[attr1] = plus.storage.getItem('uToken');
+				user[attr2] = plus.storage.getItem('uId'); 
+				//console.log(user[attr1]+" "+user[attr2]);
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(user);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	//console.log(xhr.responseText);
+				      	var nState = eval(noteList.State);  
+						console.log(nState);
+						//nData = eval(noteList.data);  
+						
+						switch(nState)
+						{
+							case 200:
+								//设置到本地存储
+								nData = eval(noteList.data); 
+								//console.log(nData);
+								plus.storage.setItem('uRemind',JSON.stringify(nData));
+								//console.log(JSON.parse(plus.storage.getItem('uNote')));
+								
+								break;
+							case 401:
+								//异常
+								plus.nativeUI.toast('用户异常，检查登陆！~');
+								break;
+							default:
+								plus.nativeUI.toast("Error：请求异常");
+						}
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}			
+				//将数据存入nData，判断是否200，若为真，则调用加载时间		
+				load();			
+			});
+
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">title</h4><h5>remind time : 12:35</h5><p class="mui-h6 mui-ellipsis">remind content</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">12:25</span></div></div>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
+					//下拉加载
+					load();
+					
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 				}, 1000);
 			}
-			var count = 0;
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
+			
+			function load(){
+				var table = document.body.querySelector('.mui-table-view');
+				var cells = document.body.querySelectorAll('.mui-table-view-cell');
+				
+				var sData = JSON.parse(plus.storage.getItem('uRemind'));
+				//操作dom 先删除，再加载
+			    while (table.hasChildNodes()) {
+			    		//console.log(111);
+			        table.removeChild(table.firstChild);				
+			    }
+				for (var i in sData) {
+					//接受数据
+					 var lnoteID = sData[i].noteID;
+			         var ltitle = sData[i].title;
+			         var lstratTime = sData[i].stratTime.slice(5,16);
+			         var lendTime = sData[i].endTime.slice(5,16);
+			         var lremindTime = sData[i].remindTime.slice(5,16);
+			         var lcreateTime = sData[i].time.slice(5,16);
+			         var ltags = sData[i].tags;
+			         var lcontent = sData[i].content;
+			         
+			         //console.log(lnoteID);
+			        //渲染列表
+			        var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">title</h4><h5>remind time : 12:35</h5><p class="mui-h6 mui-ellipsis">remind content</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">12:25</span></div></div>';
-						table.appendChild(li);
-					}
-				}, 1000);
+
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>提醒时间 :' +lremindTime+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lcreateTime + '</span></div></div>';
+					
+					table.insertBefore(li, table.firstChild);
+			    }
 			}
 		</script>
 	</body>
