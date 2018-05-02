@@ -73,8 +73,8 @@
 					                <textarea id="Remindtextarea" rows="5" placeholder="提醒内容" class="mui-input-speech mui-input-clear"></textarea>
 					            </div>
 								<div class="mui-button-row">
-									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
-									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
+									<button class="mui-btn mui-btn-primary" type="button" onclick="addRemind()">确认</button>
+									<!--<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>-->
 								</div>
 							</form>
 						</div>
@@ -98,8 +98,8 @@
 								
 								
 								<div class="mui-button-row">
-									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
-									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
+									<button class="mui-btn mui-btn-primary" type="button" onclick="addNote()">添加</button>
+									<!--<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>-->
 								</div>
 							</form>
 						</div>
@@ -176,7 +176,7 @@
 			})(mui);
 			
 			//三
-				(function($) {
+			(function($) {
 				$.init();
 				var result = $('#result2')[0];
 				var btns = $('.btn2');
@@ -205,7 +205,17 @@
 				});
 			})(mui);
 			
+			//添加笔记事件
+			function addNote()
+			{
+				
+			}
 			
+			//添加提醒
+			function addRemind()
+			{
+				
+			}
 		</script>
 	</body>
 
