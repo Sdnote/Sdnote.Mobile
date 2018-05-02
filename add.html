@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -34,14 +33,12 @@
 			}
 		</style>
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">折叠面板</h1>
+			<h1 class="mui-title">添加</h1>
 		</header>
-		<div class="mui-content">
-			
+		<div class="mui-content">		
 			<div class="mui-card">
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-collapse mui-active">
@@ -58,26 +55,23 @@
 									<input type="text" class="mui-input-clear" placeholder="输入日程标签 Tag">
 								</div>
 								<div class="mui-input-row">
-									<label>内容</label>
-									<input type="text" class="mui-input-speech mui-input-clear" placeholder="输入日程内容">
-								</div>
-								<div class="mui-input-row">
 									<label>开始时间</label>
-									<label id="result"></label>
-									<button id='demo1' data-options='{}' class="btn mui-btn">时间</button>								
+									<label id="result" style="width: auto;"></label>
+									<button id='demo1' data-options='{}'  class="btn mui-btn">⏱</button>							
 								</div>
 								<div class="mui-input-row">
 									<label>结束时间</label>
-									<label id="endTime"></label>
-									<button id='pickDateBtn' type="button" class="mui-btn">日期</button>
-									<button id='pickTimeBtn' type="button" class="mui-btn">时间</button>
+									<label id="result1" style="width: auto;"></label>
+									<button id='demo1' data-options='{}'  class="btn1 mui-btn">⏱</button>							
 								</div>
 								<div class="mui-input-row">
 									<label>提醒时间</label>
-									<label id="remindTime"></label>
-									<button id='pickDateBtn' type="button" class="mui-btn">日期</button>
-									<button id='pickTimeBtn' type="button" class="mui-btn">时间</button>
+									<label id="result2" style="width: auto;"></label>
+									<button id='demo1' data-options='{}'  class="btn2 mui-btn">⏱</button>			
 								</div>
+								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
+					                <textarea id="Remindtextarea" rows="5" placeholder="提醒内容" class="mui-input-speech mui-input-clear"></textarea>
+					            </div>
 								<div class="mui-button-row">
 									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
 									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
@@ -94,13 +88,15 @@
 									<input type="text" id = "rTitle"  class=" mui-input-speech mui-input-clear" placeholder="输入日程标题">
 								</div>
 								<div class="mui-input-row">
-									<label>标签Tag:</label>
+									<label>标签Tag</label>
 									<input type="text" class="mui-input-clear" placeholder="输入日程标签 Tag">
 								</div>
-								<div class="mui-input-row">
-									<label>Input</label>
-									<input type="text" class="mui-input-speech mui-input-clear" placeholder="语音输入">
-								</div>
+								
+								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
+					                <textarea id="Notetextarea" rows="5" placeholder="笔记内容" class="mui-input-speech mui-input-clear"></textarea>
+					            </div>
+								
+								
 								<div class="mui-button-row">
 									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
 									<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
@@ -111,13 +107,15 @@
 				</ul>
 			</div>
 		</div>
-
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.picker.min.js"></script>
 		<script type="text/javascript">
 			mui.init({
-				swipeBack:true //启用右滑关闭功能
+				//swipeBack:true //启用右滑关闭功能
 			});
+			mui.ready(function() {
+                mui('.mui-input-row textarea').input();
+            });
 			(function($) {
 				$.init();
 				var result = $('#result')[0];
@@ -127,7 +125,7 @@
 						var _self = this;
 						if(_self.picker) {
 							_self.picker.show(function (rs) {
-								result.innerText = '选择结果: ' + rs.text;
+								result.innerText =  rs.text;
 								_self.picker.dispose();
 								_self.picker = null;
 							});
@@ -135,33 +133,9 @@
 							var optionsJson = this.getAttribute('data-options') || '{}';
 							var options = JSON.parse(optionsJson);
 							var id = this.getAttribute('id');
-							/*
-							 * 首次显示时实例化组件
-							 * 示例为了简洁，将 options 放在了按钮的 dom 上
-							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
-							 */
 							_self.picker = new $.DtPicker(options);
 							_self.picker.show(function(rs) {
-								/*
-								 * rs.value 拼合后的 value
-								 * rs.text 拼合后的 text
-								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
-								 * rs.m 月，用法同年
-								 * rs.d 日，用法同年
-								 * rs.h 时，用法同年
-								 * rs.i 分（minutes 的第二个字母），用法同年
-								 */
-								result.innerText = '选择结果: ' + rs.text;
-								/* 
-								 * 返回 false 可以阻止选择框的关闭
-								 * return false;
-								 */
-								/*
-								 * 释放组件资源，释放后将将不能再操作组件
-								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
-								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
-								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
-								 */
+								result.innerText =  rs.text;
 								_self.picker.dispose();
 								_self.picker = null;
 							});
@@ -170,6 +144,67 @@
 					}, false);
 				});
 			})(mui);
+			
+			//二
+			(function($) {
+				$.init();
+				var result = $('#result1')[0];
+				var btns = $('.btn1');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								result.innerText =  rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								result.innerText =  rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+			
+			//三
+				(function($) {
+				$.init();
+				var result = $('#result2')[0];
+				var btns = $('.btn2');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								result.innerText =  rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								result.innerText =  rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+			
 			
 		</script>
 	</body>
