@@ -46,6 +46,10 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script>
+			window.addEventListener('refresh1', function(e){//执行刷新
+			    console.log("返回");
+			    location.reload();
+			});
 			mui.init({
 				swipeBack: false,
 				pullRefresh: {
