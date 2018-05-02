@@ -52,21 +52,21 @@
 								</div>
 								<div class="mui-input-row">
 									<label>标签Tag</label>
-									<input type="text" class="mui-input-clear" placeholder="输入日程标签 Tag">
+									<input type="text" id = "rTag"  class="mui-input-clear" placeholder="输入日程标签 Tag">
 								</div>
 								<div class="mui-input-row">
 									<label>开始时间</label>
-									<label id="result" style="width: auto;"></label>
+									<label id="result" style="width: auto;"> </label>
 									<button id='demo1' data-options='{}'  class="btn mui-btn">⏱</button>							
 								</div>
 								<div class="mui-input-row">
 									<label>结束时间</label>
-									<label id="result1" style="width: auto;"></label>
+									<label id="result1" style="width: auto;"> </label>
 									<button id='demo1' data-options='{}'  class="btn1 mui-btn">⏱</button>							
 								</div>
 								<div class="mui-input-row">
 									<label>提醒时间</label>
-									<label id="result2" style="width: auto;"></label>
+									<label id="result2" style="width: auto;"> </label>
 									<button id='demo1' data-options='{}'  class="btn2 mui-btn">⏱</button>			
 								</div>
 								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
@@ -119,9 +119,9 @@
 			    beforeback: function() {  
 			　　　　 //获得父页面的webview  
 			        var list = plus.webview.currentWebview().opener();  
-			        console.log(list);
+			        //console.log(list.toString());
 			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
-			        mui.fire(list, 'refresh');  
+			        mui.fire(list, 'refresh1');  
 			        //返回true,继续页面关闭逻辑  
 			        return true;  
 			    }  
@@ -264,14 +264,14 @@
 				//设置请求头
 				xhr.setRequestHeader('Content-Type','application/json');
 				// 发送HTTP请求
-				//console.log(user);
+				console.log(user);
 				xhr.send(info);	
 
 				xhr.onreadystatechange = function (){
 				    if ( xhr.status == 200 ) {
-				        //console.log( "xhr请求成功："+xhr.responseText);
+				        console.log( "xhr请求成功："+xhr.responseText);
 				      	var noteList = JSON.parse(xhr.responseText);
-				      	console.log(xhr.responseText);
+				      	//console.log(xhr.responseText);
 				      	plus.nativeUI.toast('笔记添加成功！~');	
 				      	mui.back();
 				    } else {
@@ -284,7 +284,76 @@
 			//添加提醒
 			function addRemind()
 			{
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/remid/add");
+				//参数
+				var info = {};
+				var attr1 = "Token";
+				var attr2 = "UserID";
+				var attr3 = "Title";
+				var attr4 = "time";
+				var attr5 = "Content";
+				var attr6 = "Tag";
+				var attr7 = "stratTime";
+				var attr8 = "endTime";
+				var attr9 = "remindTime";
+				info[attr1] = plus.storage.getItem('uToken');
+				info[attr2] = plus.storage.getItem('uId'); 
+				info[attr3] = document.getElementById("rTitle").value;
+				//标题空值判断
+				if (info[attr3] == "")
+				{
+					plus.nativeUI.toast('不能什么都不写啊！~');	
+					return;
+				}
+				Date.prototype.Format = function (fmt) { //author: meizz
+			    var o = {
+			        "M+": this.getMonth() + 1, //月份
+			        "d+": this.getDate(), //日
+			        "h+": this.getHours(), //小时
+			        "m+": this.getMinutes(), //分
+			        "s+": this.getSeconds(), //秒
+			        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			        "S": this.getMilliseconds() //毫秒
+				    };
+				    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				    for (var k in o)
+				    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				    return fmt;
+				}
+				info[attr4] = new Date().Format("yyyy-MM-dd hh:mm");
+				info[attr5] = document.getElementById("Notetextarea").value;
+				info[attr6] = document.getElementById("rTag").value;
+				info[attr7] = document.getElementById("result").innerText;		
+				info[attr8] = document.getElementById("result1").innerText;
+				info[attr9] = document.getElementById("result2").innerText;
+				if (info[attr7] == "" || info[attr8] == "" || info[attr9] == "")
+				{
+					console.log(info[attr9]);
+					plus.nativeUI.toast('必须设置三个时间哦！~');	
+					return;
+				}
 				
+				console.log(JSON.stringify(info));
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(info);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	//console.log(xhr.responseText);
+				      	plus.nativeUI.toast('提醒添加成功！~');	
+				      	mui.back();
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}				
 			}
 		</script>
 	</body>
