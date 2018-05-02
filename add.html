@@ -85,11 +85,11 @@
 							<form class="mui-input-group">
 								<div class="mui-input-row">
 									<label>标题</label>
-									<input type="text" id = "rTitle"  class=" mui-input-speech mui-input-clear" placeholder="输入日程标题">
+									<input type="text" id = "nTitle"  class=" mui-input-speech mui-input-clear" placeholder="输入日程标题">
 								</div>
 								<div class="mui-input-row">
 									<label>标签Tag</label>
-									<input type="text" class="mui-input-clear" placeholder="输入日程标签 Tag">
+									<input type="text" id = "nTag" class="mui-input-clear" placeholder="输入日程标签 Tag">
 								</div>
 								
 								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
@@ -208,7 +208,56 @@
 			//添加笔记事件
 			function addNote()
 			{
-				
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/Note/add");
+				//参数
+				var info = {};
+				var attr1 = "Token";
+				var attr2 = "UserID";
+				var attr3 = "Title";
+				var attr4 = "time";
+				var attr5 = "Content";
+				var attr6 = "Tag";
+				info[attr1] = plus.storage.getItem('uToken');
+				info[attr2] = plus.storage.getItem('uId'); 
+				info[attr3] = document.getElementById("nTitle").value;
+				Date.prototype.Format = function (fmt) { //author: meizz
+			    var o = {
+			        "M+": this.getMonth() + 1, //月份
+			        "d+": this.getDate(), //日
+			        "h+": this.getHours(), //小时
+			        "m+": this.getMinutes(), //分
+			        "s+": this.getSeconds(), //秒
+			        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			        "S": this.getMilliseconds() //毫秒
+				    };
+				    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				    for (var k in o)
+				    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				    return fmt;
+				}
+				info[attr4] = new Date().Format("yyyy-MM-dd hh:mm");
+				info[attr5] = document.getElementById("Notetextarea").value;
+				info[attr6] = document.getElementById("nTag").value;
+				console.log(JSON.stringify(info));
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(info);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	console.log(xhr.responseText);
+				      	plus.nativeUI.toast('笔记添加成功！~');	
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}				
 			}
 			
 			//添加提醒
