@@ -253,6 +253,7 @@
 				      	var noteList = JSON.parse(xhr.responseText);
 				      	console.log(xhr.responseText);
 				      	plus.nativeUI.toast('笔记添加成功！~');	
+				      	mui.back();
 				    } else {
 				        //console.log( "xhr请求失败："+xhr.status );
 				        plus.nativeUI.toast('异常！');
