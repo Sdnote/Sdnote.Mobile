@@ -169,11 +169,28 @@
 
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>标签 :' +ltags+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lnoteTime + '</span></div></div>';
+					li.innerHTML = '<div class="mui-table" hideid="'+ lnoteID +'"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>标签 :' +ltags+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lnoteTime + '</span></div></div>';
 					
 					table.insertBefore(li, table.firstChild);
 			    }
 			}
+			
+			//详情跳转
+			mui(".mui-table-view").on('tap','.mui-table',function(){
+			  //获取id
+			  var nid = this.getAttribute('hideid');
+
+			  console.log("点击生效"+nid);
+
+			//打开详情页面            
+			  mui.openWindow({  
+			    url:'ndetail.html',  
+			    id:'ndetail.html',  
+			    extras:{  
+			        nid:nid,  
+			    }  
+			});  
+			}); 
 		</script>
 	</body>
 </html>

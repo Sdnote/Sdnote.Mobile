@@ -60,5 +60,11 @@
 		"refer": [
 			"rdetail.html"
 		]
+	},
+	"tab-webview-subpage-note.html": {
+		"refer": [
+			"rdetail.html",
+			"ndetail.html"
+		]
 	}
 }

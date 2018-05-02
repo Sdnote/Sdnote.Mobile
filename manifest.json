@@ -249,6 +249,14 @@
 					"rdetail.html"
 				],
 				"priority": 0
+			},
+			"tab-webview-subpage-note.html": {
+				"resources": [],
+				"refer": [
+					"rdetail.html",
+					"ndetail.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

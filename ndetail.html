@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -19,18 +17,40 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">详情</h1>
 		</header>
-		<div class="mui-content">
-			<div class="mui-card">
-				<div class="mui-card-header" id ="rTitle"></div>
+		<!--展示div-->
+		<div class="mui-content" >
+			<div class="mui-card" id="show">
+				<div class="mui-card-header" id ="nTitle"></div>
 				<div class="mui-card-content">
 					<div class="mui-card-content-inner">
-						<p id ="time">Posted on January 18, 2016</p>
-						<p style="color: #333; height:auto">包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）</p>
+						<p id ="tag"></p>
+						<p style="color: #333; height:auto" id="content"></p>
 					</div>
 				</div>
 				<div class="mui-card-footer">
 					<a class="mui-card-link"></a>
-					<a class="mui-card-link">编辑</a>
+					<a class="mui-card-link" onclick="bj()">编辑</a>
+				</div>
+			</div>
+			
+			<!--编辑 div-->
+			<div class="mui-card" id="edit" style="display:none">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>标题</label>
+						<input type="text" id = "enTitle"  class="mui-input-clear"/>
+					</div>
+					<div class="mui-input-row">
+						<label>标签Tag</label>
+						<input type="text" id = "enTag"  class="mui-input-clear"/>
+					</div>
+					<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
+		                <textarea id="eNotetextarea" rows="17" placeholder="提醒内容" class="mui-input-clear"></textarea>
+		           </div>
+				</form>
+				<div class="mui-card-footer">
+					<a class="mui-card-link" onclick="sc()">删除</a>
+					<a class="mui-card-link" onclick="gx()">更新</a>
 				</div>
 			</div>
 			
@@ -40,40 +60,168 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript">
+			//全局变量 rid
+			var nid;
+			
 			mui.init({
 				swipeBack:true //启用右滑关闭功能
 			});
 			
+			mui.init({  
+			    beforeback: function() {  
+			　　　　 //获得父页面的webview  
+			        var list = plus.webview.currentWebview().opener();  
+			        //console.log(list.toString());
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
+			        mui.fire(list, 'refresh');  
+			        //返回true,继续页面关闭逻辑  
+			        return true;  
+			    }  
+			});  
+			
+			function bj(){
+				var target = document.getElementById("show");
+				target.style.display="none";
+				var target = document.getElementById("edit");
+				target.style.display="block";	
+			}
+			function gx(){
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/Note/update");
+				//参数
+				var info = {};
+				var attr1 = "Token";
+				var attr2 = "noteID";
+				var attr3 = "Title";
+				var attr4 = "time";
+				var attr5 = "Content";
+				var attr6 = "Tag";
+				info[attr1] = plus.storage.getItem('uToken');
+				info[attr2] = nid;
+				info[attr3] = document.getElementById("enTitle").value;
+				
+				//标题空值判断
+				if (info[attr3] == "")
+				{
+					plus.nativeUI.toast('标题不能为空！~');	
+					return;
+				}
+				Date.prototype.Format = function (fmt) { //author: meizz
+			    var o = {
+			        "M+": this.getMonth() + 1, //月份
+			        "d+": this.getDate(), //日
+			        "h+": this.getHours(), //小时
+			        "m+": this.getMinutes(), //分
+			        "s+": this.getSeconds(), //秒
+			        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			        "S": this.getMilliseconds() //毫秒
+				    };
+				    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				    for (var k in o)
+				    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				    return fmt;
+				}
+				info[attr4] = new Date().Format("yyyy-MM-dd hh:mm");
+				info[attr5] = document.getElementById("eNotetextarea").value;
+				info[attr6] = document.getElementById("enTag").value;
+				console.log(info[attr5]+info[attr6]);
+				
+				
+				console.log(JSON.stringify(info));
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(info);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	console.log(xhr.responseText);
+				      	plus.nativeUI.toast('提醒修改成功！~');	
+				      	mui.back();
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}				
+			}
+			function sc(){
+				var btnArray = ['否', '是'];
+				mui.confirm('删除这条便签，确认？', '删除', btnArray, function(e) {
+					if (e.index == 1) {
+						//删除操作
+						console.log("删除”"+nid);
+						var xhr = new plus.net.XMLHttpRequest();
+						//预处理请求
+						xhr.open("POST", "http://dstantside.com/Sdnote/api/remid/update");
+				
+						//处理值
+						var info = {};
+						var attr1 = "Token";
+						var attr2 = "UserID";
+						var attr3 = "noteID";
+						info[attr1] = plus.storage.getItem('uToken');
+						info[attr2] = plus.storage.getItem('uId'); 
+						info[attr3] = nid;
+						console.log(info);
+
+						//设置请求头
+						xhr.setRequestHeader('Content-Type','application/json');
+						// 发送HTTP请求
+						//xhr.send(JSON.stringify(user));	
+						xhr.send(info);
+						
+						xhr.onreadystatechange = function (){
+							if ( xhr.status == 200 ) {
+								console.log(xhr.responseText);
+								plus.nativeUI.toast('删除成功！~');
+								mui.back();
+							}
+							else{
+								plus.nativeUI.toast('通讯异常！~');
+							}
+						}
+					} else {}
+				})
+				//mui.back();
+			}
 			
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();  
-				var rid = self.rid;
-				//console.log(rid);
+				 nid = self.nid;
+				console.log(nid);
 			
-				var sData = JSON.parse(plus.storage.getItem('uRemind'));
-				
+				var sData = JSON.parse(plus.storage.getItem('uNote'));
+				console.log(JSON.stringify(sData));
 				for (var i in sData) {
 					//接受数据
-					 var lnoteID = sData[i].remindID;
+					 var lnoteID = sData[i].noteID;
 			         var ltitle = sData[i].title;
-			         var lstratTime = sData[i].stratTime.slice(5,16);
-			         var lendTime = sData[i].endTime.slice(5,16);
-			         var lremindTime = sData[i].remindTime.slice(5,16);
-			         var lcreateTime = sData[i].time.slice(5,16);
+			         var lcreateTime = sData[i].time;
 			         var ltags = sData[i].tags;
 			         var lcontent = sData[i].content;
 			         
-			        //console.log(lnoteID);
-			        if (lnoteID == rid)
-			        {
-				        	console.log(lnoteID + ltitle);
-			        	
-			        }
 			        
+			        if (lnoteID == nid)
+			        {
+				        document.getElementById("nTitle").innerHTML = ltitle;
+				        document.getElementById("enTitle").value = ltitle;
+				        
+				        
+				        document.getElementById("tag").innerHTML = " 标签："+ltags;
+				        document.getElementById("enTag").value = ltags;
+				        
+				        
+				        document.getElementById("content").innerHTML = lcontent;
+				        document.getElementById("eNotetextarea").value = lcontent;
+				        
+			        }
 			    }
 			
 			});
-			
 		</script>
 	</body>
 
