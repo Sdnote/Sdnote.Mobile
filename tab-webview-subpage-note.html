@@ -63,6 +63,12 @@
 					},
 				}
 			});
+			
+			//监听返回并刷新
+			window.addEventListener('refresh', function(e){//执行刷新
+			    location.reload();
+			});
+			
 			//全局变量数据源
 			var nData;
 			var f_dataIn;

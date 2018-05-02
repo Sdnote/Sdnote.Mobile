@@ -113,6 +113,20 @@
 			mui.init({
 				//swipeBack:true //启用右滑关闭功能
 			});
+			
+			//返回刷新预处理
+			mui.init({  
+			    beforeback: function() {  
+			　　　　 //获得父页面的webview  
+			        var list = plus.webview.currentWebview().opener();  
+			        console.log(list);
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
+			        mui.fire(list, 'refresh');  
+			        //返回true,继续页面关闭逻辑  
+			        return true;  
+			    }  
+			});  
+			
 			mui.ready(function() {
                 mui('.mui-input-row textarea').input();
             });
@@ -222,6 +236,12 @@
 				info[attr1] = plus.storage.getItem('uToken');
 				info[attr2] = plus.storage.getItem('uId'); 
 				info[attr3] = document.getElementById("nTitle").value;
+				//标题空值判断
+				if (info[attr3] == "")
+				{
+					plus.nativeUI.toast('不能什么都不写啊！~');	
+					return;
+				}
 				Date.prototype.Format = function (fmt) { //author: meizz
 			    var o = {
 			        "M+": this.getMonth() + 1, //月份
