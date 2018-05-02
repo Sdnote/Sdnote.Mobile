@@ -55,7 +55,7 @@
 		<script src="js/mui.min.js"></script>
 		<script>
 			window.addEventListener('refresh', function(e){//执行刷新
-			    console.log("返回");
+			    //console.log("返回");
 			    location.reload();
 			});
 			
@@ -136,6 +136,7 @@
 					//下拉加载
 					load();					
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					location.reload();
 				}, 1000);
 			}
 			function pullupRefresh() {

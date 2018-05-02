@@ -114,18 +114,17 @@
 						//设置请求头
 						xhr.setRequestHeader('Content-Type','application/json');
 						// 发送HTTP请求
-						//xhr.send(JSON.stringify(user));	
+						
 						xhr.send(regInfo);
-						
-						//判断，若账号为空，则注册按钮不可用
-						
+						console.log(regInfo);
 						
 						//处理返回值
 						xhr.onreadystatechange = function (){
 						if ( xhr.status == 200 ) 
 						{
+							console.log(xhr.responseText);
 							var re = eval("("+xhr.responseText+")");
-							console.log(re);
+							//console.log(re);
 							var rState = eval('re.'+'state');
 							var rName = eval('re.'+'userName');
 							var rEmail = eval('re.'+'Eamil');

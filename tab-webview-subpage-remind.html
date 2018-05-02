@@ -59,6 +59,9 @@
 					},
 				}
 			});
+			
+			
+			
 			//全局变量数据源
 			var nData;
 			var f_dataIn;
@@ -120,6 +123,7 @@
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
+					location.reload();
 					//下拉加载
 					load();
 					
