@@ -173,6 +173,13 @@
 					"login/login.html"
 				],
 				"priority": 0
+			},
+			"add.html": {
+				"resources": [],
+				"refer": [
+					"add.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
