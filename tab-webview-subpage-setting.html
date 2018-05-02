@@ -57,7 +57,6 @@
 					</a>
 				</li>
 			</ul>
-			<p style="text-indent: 22px; margin-top: 20px;">登陆成功后请退出程序重新进入！</p>
 		</div>	
 		
 	</body>
@@ -66,6 +65,10 @@
 		mui.init({
 			//swipeBack:true //启用右滑关闭功能		
 		});		
+		
+		window.addEventListener('refresh', function(e){//执行刷新
+		    location.reload();
+		});
 		
 		//判断登录否，显示不同信息
 		mui.plusReady(function(){ 

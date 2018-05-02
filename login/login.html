@@ -124,6 +124,17 @@
 		<script src="../js/app.js"></script>
 		<script>
 
+			mui.init({  
+			    beforeback: function() {  
+			　　　　 //获得父页面的webview  
+			        var list = plus.webview.currentWebview().opener();  
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
+			    mui.fire(list, 'refresh');  
+			    //返回true,继续页面关闭逻辑  
+			        return true;  
+			    }  
+			});  
+			
 			function login(){
 			var xhr = new plus.net.XMLHttpRequest();
 			//预处理请求
@@ -176,14 +187,16 @@
 							plus.nativeUI.toast('你好！'+ uName);
 							//console.log(uToken);
 							
-							//跳转页面
-							var ws=plus.webview.currentWebview();
-							  //console.log('flag');
-							plus.webview.close(ws);		
-							var h=plus.webview.getLaunchWebview();
-							//console.log('flag'+h.getURL());
-							
-							plus.webview.show(h); // 显示窗口
+//							//跳转页面
+//							var ws=plus.webview.currentWebview();
+//							  //console.log('flag');
+//							plus.webview.close(ws);		
+//							var h=plus.webview.getLaunchWebview();
+//							//console.log('flag'+h.getURL());
+//							
+//							plus.webview.show(h); // 显示窗口
+
+							mui.back();
 							break;
 						
 						case 400:
