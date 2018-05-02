@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card">
+				<div class="mui-card-header" id ="rTitle"></div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id ="time">Posted on January 18, 2016</p>
+						<p style="color: #333; height:auto">包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）</p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<a class="mui-card-link"></a>
+					<a class="mui-card-link">编辑</a>
+				</div>
+			</div>
+			
+	
+			
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			
+			
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();  
+				var rid = self.rid;
+				//console.log(rid);
+			
+				var sData = JSON.parse(plus.storage.getItem('uRemind'));
+				
+				for (var i in sData) {
+					//接受数据
+					 var lnoteID = sData[i].remindID;
+			         var ltitle = sData[i].title;
+			         var lstratTime = sData[i].stratTime.slice(5,16);
+			         var lendTime = sData[i].endTime.slice(5,16);
+			         var lremindTime = sData[i].remindTime.slice(5,16);
+			         var lcreateTime = sData[i].time.slice(5,16);
+			         var ltags = sData[i].tags;
+			         var lcontent = sData[i].content;
+			         
+			        //console.log(lnoteID);
+			        if (lnoteID == rid)
+			        {
+				        	console.log(lnoteID + ltitle);
+			        	
+			        }
+			        
+			    }
+			
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -234,6 +234,21 @@
 					"add.html"
 				],
 				"priority": 0
+			},
+			"tab-webview-subpage-remind.html": {
+				"resources": [],
+				"refer": [
+					"detail.html",
+					"rdetail.html"
+				],
+				"priority": 0
+			},
+			"rdetail.html": {
+				"resources": [],
+				"refer": [
+					"rdetail.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

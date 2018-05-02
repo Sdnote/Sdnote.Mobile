@@ -335,11 +335,12 @@
 				    return fmt;
 				}
 				info[attr4] = new Date().Format("yyyy-MM-dd hh:mm");
-				info[attr5] = document.getElementById("Notetextarea").value;
+				info[attr5] = document.getElementById("Remindtextarea").value;
 				info[attr6] = document.getElementById("rTag").value;
 				info[attr7] = document.getElementById("result").innerText;		
 				info[attr8] = document.getElementById("result1").innerText;
 				info[attr9] = document.getElementById("result2").innerText;
+				console.log(info[attr5]+info[attr6]);
 				if (info[attr7] == "" || info[attr8] == "" || info[attr9] == "")
 				{
 					console.log(info[attr9]);

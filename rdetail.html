@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详情</h1>
+		</header>
+		<!--展示div-->
+		<div class="mui-content" >
+			<div class="mui-card" id="show">
+				<div class="mui-card-header" id ="rTitle"></div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id ="stime"></p>
+						<p id ="etime"></p>
+						<p id ="rtime"></p>
+						<p id ="tag"></p>
+						<p style="color: #333; height:auto" id="content"></p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<a class="mui-card-link"></a>
+					<a class="mui-card-link" onclick="bj()">编辑</a>
+				</div>
+			</div>
+			
+			<!--编辑 div-->
+			<div class="mui-card" id="edit" style="display:none">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>标题</label>
+						<input type="text" id = "erTitle"  class="mui-input-clear"/>
+					</div>
+					<div class="mui-input-row">
+						<label>标签Tag</label>
+						<input type="text" id = "erTag"  class="mui-input-clear"/>
+					</div>
+					<div class="mui-input-row">
+						<label>开始时间</label>
+						<input type="text" id = "estime"  class="mui-input-clear"/>	
+					</div>
+					<div class="mui-input-row">
+						<label>结束时间</label>
+						<input type="text" id = "eetime"  class="mui-input-clear"/>							
+					</div>
+					<div class="mui-input-row">
+						<label>提醒时间</label>
+						<input type="text" id = "ertime"  class="mui-input-clear"/>			
+					</div>
+					<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
+		                <textarea id="eRemindtextarea" rows="5" placeholder="提醒内容" class="mui-input-clear"></textarea>
+		           </div>
+				</form>
+				<div class="mui-card-footer">
+					<a class="mui-card-link" onclick="sc()">删除</a>
+					<a class="mui-card-link" onclick="gx()">更新</a>
+				</div>
+			</div>
+			
+	
+			
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			//全局变量 rid
+			var rid;
+			
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			
+			mui.init({  
+			    beforeback: function() {  
+			　　　　 //获得父页面的webview  
+			        var list = plus.webview.currentWebview().opener();  
+			        //console.log(list.toString());
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
+			        mui.fire(list, 'refresh');  
+			        //返回true,继续页面关闭逻辑  
+			        return true;  
+			    }  
+			});  
+			
+			function bj(){
+				var target = document.getElementById("show");
+				target.style.display="none";
+				var target = document.getElementById("edit");
+				target.style.display="block";	
+			}
+			function gx(){
+				var xhr = new plus.net.XMLHttpRequest();
+				//预处理请求
+				xhr.open("POST", "http://dstantside.com/Sdnote/api/remid/update");
+				//参数
+				var info = {};
+				var attr1 = "Token";
+				var attr2 = "remindID";
+				var attr3 = "Title";
+				var attr4 = "time";
+				var attr5 = "Content";
+				var attr6 = "Tag";
+				var attr7 = "stratTime";
+				var attr8 = "endTime";
+				var attr9 = "remindTime";
+				info[attr1] = plus.storage.getItem('uToken');
+				info[attr2] = rid;
+				info[attr3] = document.getElementById("erTitle").value;
+				
+				//标题空值判断
+				if (info[attr3] == "")
+				{
+					plus.nativeUI.toast('标题不能为空！~');	
+					return;
+				}
+				Date.prototype.Format = function (fmt) { //author: meizz
+			    var o = {
+			        "M+": this.getMonth() + 1, //月份
+			        "d+": this.getDate(), //日
+			        "h+": this.getHours(), //小时
+			        "m+": this.getMinutes(), //分
+			        "s+": this.getSeconds(), //秒
+			        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			        "S": this.getMilliseconds() //毫秒
+				    };
+				    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				    for (var k in o)
+				    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				    return fmt;
+				}
+				info[attr4] = new Date().Format("yyyy-MM-dd hh:mm");
+				info[attr5] = document.getElementById("eRemindtextarea").value;
+				info[attr6] = document.getElementById("erTag").value;
+				info[attr7] = document.getElementById("estime").value;		
+				info[attr8] = document.getElementById("eetime").value;
+				info[attr9] = document.getElementById("ertime").value;
+				console.log(info[attr5]+info[attr6]);
+				if (info[attr7] == "" || info[attr8] == "" || info[attr9] == "")
+				{
+					console.log(info[attr9]);
+					plus.nativeUI.toast('必须设置三个时间哦！~');	
+					return;
+				}
+				
+				console.log(JSON.stringify(info));
+				//设置请求头
+				xhr.setRequestHeader('Content-Type','application/json');
+				// 发送HTTP请求
+				//console.log(user);
+				xhr.send(info);	
+
+				xhr.onreadystatechange = function (){
+				    if ( xhr.status == 200 ) {
+				        //console.log( "xhr请求成功："+xhr.responseText);
+				      	var noteList = JSON.parse(xhr.responseText);
+				      	console.log(xhr.responseText);
+				      	plus.nativeUI.toast('提醒修改成功！~');	
+				      	mui.back();
+				    } else {
+				        //console.log( "xhr请求失败："+xhr.status );
+				        plus.nativeUI.toast('异常！');
+				    }
+				}				
+			}
+			function sc(){
+				var btnArray = ['否', '是'];
+				mui.confirm('删除这条便签，确认？', '删除', btnArray, function(e) {
+					if (e.index == 1) {
+						//删除操作
+						console.log("删除”"+rid);
+						var xhr = new plus.net.XMLHttpRequest();
+						//预处理请求
+						xhr.open("POST", "http://dstantside.com/Sdnote/api/remid/update");
+				
+						//处理值
+						var info = {};
+						var attr1 = "Token";
+						var attr2 = "UserID";
+						var attr3 = "remindID";
+						info[attr1] = plus.storage.getItem('uToken');
+						info[attr2] = plus.storage.getItem('uId'); 
+						info[attr3] = rid;
+						console.log(info);
+
+						//设置请求头
+						xhr.setRequestHeader('Content-Type','application/json');
+						// 发送HTTP请求
+						//xhr.send(JSON.stringify(user));	
+						xhr.send(info);
+						
+						xhr.onreadystatechange = function (){
+							if ( xhr.status == 200 ) {
+								console.log(xhr.responseText);
+								plus.nativeUI.toast('删除成功！~');
+							}
+							else{
+								plus.nativeUI.toast('通讯异常！~');
+							}
+						}
+					} else {}
+				})
+				//mui.back();
+			}
+			
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();  
+				 rid = self.rid;
+				//console.log(rid);
+			
+				var sData = JSON.parse(plus.storage.getItem('uRemind'));
+				
+				for (var i in sData) {
+					//接受数据
+					 var lnoteID = sData[i].remindID;
+			         var ltitle = sData[i].title;
+			         var lstratTime = sData[i].stratTime;
+			         var lendTime = sData[i].endTime;
+			         var lremindTime = sData[i].remindTime;
+			         var lcreateTime = sData[i].time;
+			         var ltags = sData[i].tag;
+			         var lcontent = sData[i].content;
+			         
+			        //console.log(lendTime);
+			        if (lnoteID == rid)
+			        {
+				        document.getElementById("rTitle").innerHTML = ltitle;
+				        document.getElementById("erTitle").value = ltitle;
+				        
+				        document.getElementById("stime").innerHTML = "开始时间："+lstratTime;
+				        document.getElementById("estime").value = lstratTime;
+				        
+				        document.getElementById("etime").innerHTML = "结束时间："+lendTime;
+				        document.getElementById("eetime").value = lendTime;
+				        
+				        document.getElementById("rtime").innerHTML = "提醒时间："+lremindTime;
+				        document.getElementById("ertime").value = lremindTime;
+				        
+				        document.getElementById("tag").innerHTML = " 标签："+ltags;
+				        document.getElementById("erTag").value = ltags;
+				        
+				        
+				        document.getElementById("content").innerHTML = lcontent;
+				        document.getElementById("eRemindtextarea").value = lcontent;
+				        
+			        }
+			    }
+			
+			});
+		</script>
+	</body>
+
+</html>

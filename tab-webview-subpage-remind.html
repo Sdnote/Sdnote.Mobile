@@ -125,9 +125,9 @@
 				setTimeout(function() {
 					location.reload();
 					//下拉加载
-					load();
-					
+					load();				
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					location.reload();
 				}, 1000);
 			}
 			
@@ -136,6 +136,7 @@
 				var cells = document.body.querySelectorAll('.mui-table-view-cell');
 				
 				var sData = JSON.parse(plus.storage.getItem('uRemind'));
+				//console.log(JSON.stringify(sData));
 				//操作dom 先删除，再加载
 			    while (table.hasChildNodes()) {
 			    		//console.log(111);
@@ -143,27 +144,47 @@
 			    }
 				for (var i in sData) {
 					//接受数据
-					 var lnoteID = sData[i].noteID;
+					 var lnoteID = sData[i].remindID;
 			         var ltitle = sData[i].title;
-			         var lstratTime = sData[i].stratTime.slice(5,16);
-			         var lendTime = sData[i].endTime.slice(5,16);
-			         var lremindTime = sData[i].remindTime.slice(5,16);
-			         var lcreateTime = sData[i].time.slice(5,16);
+			         var lstratTime = sData[i].stratTime;
+			         var lendTime = sData[i].endTime;
+			         var lremindTime = sData[i].remindTime;
+			         var lcreateTime = sData[i].time;
 			         var ltags = sData[i].tags;
 			         var lcontent = sData[i].content;
 			         
-			         //console.log(lnoteID);
+			        //console.log(lremindTime);
 			        //渲染列表
 			        var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
 
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<div class="mui-table"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>提醒时间 :' +lremindTime+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lcreateTime + '</span></div></div>';
-					
+					li.innerHTML = '<div class="mui-table" hideid="'+ lnoteID +'"><div class="mui-table-cell mui-col-xs-10"><h4 class="mui-ellipsis">'+ ltitle + '</h4><h5>提醒时间 :' +lremindTime.slice(5,16)+ '</h5><p class="mui-h6 mui-ellipsis">' + lcontent + '</p></div><div class="mui-table-cell mui-col-xs-2 mui-text-right"><span class="mui-h5">' + lcreateTime.slice(5,16) + '</span></div></div>';
+					//console.log(li.innerHTML);
 					table.insertBefore(li, table.firstChild);
 			    }
 			}
+			
+
+			//详情跳转
+			mui(".mui-table-view").on('tap','.mui-table',function(){
+			  //获取id
+			  var rid = this.getAttribute('hideid');
+
+			  console.log("点击生效"+rid);
+
+			//打开详情页面            
+			  mui.openWindow({  
+			    url:'rdetail.html',  
+			    id:'rdetail.html',  
+			    extras:{  
+			        rid:rid,  
+			    }  
+			});  
+			}); 
+			
+			 
 		</script>
 	</body>
 
