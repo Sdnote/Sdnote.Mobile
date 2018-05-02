@@ -15,7 +15,8 @@
 			"tab-webview-subpage-contact.html",
 			"tab-webview-subpage-remind.html",
 			"tab-webview-subpage-note.html",
-			"guide.html"
+			"guide.html",
+			"add.html"
 		],
 		"priority": 0
 	},

@@ -14,14 +14,31 @@
 			body {
 				background-color: #efeff4;
 			}
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+				z-index: 9999; 
+			}
+
 		</style>
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
 			<h1 id="title" class="mui-title">日程</h1>
+			<a id="menu" class="mui-action-menu mui-icon mui-icon-plusempty mui-pull-right" onclick="add()"></a>
 		</header>
+		
+		
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="tab-webview-subpage-remind.html">
 				<span class="mui-icon mui-icon-list"></span>
@@ -36,11 +53,14 @@
 				<span class="mui-tab-label">设置</span>
 			</a>
 		</nav>
+
+		
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			
 			//检索首次启动的 guide
-//          mui.plusReady(function() {  
+            mui.plusReady(function() {  
+            	
 //              /**  
 //               * 获取本地存储中launchFlag的值  
 //               * http://www.html5plus.org/doc/zh_cn/storage.html#plus.storage.getItem  
@@ -62,8 +82,23 @@
 //                      id: "guide"  
 //                  });  
 //              }  
-//          });  
-            
+            });  
+
+			//mui('.mui-scroll-wrapper').scroll();
+			
+			//添加
+			function add()
+			{
+				mui.openWindow({
+				url:'add.html',
+				id:'add.html',
+				show: { 
+				        aniShow: 'pop-in'
+				}
+			});
+				
+			}
+
 			var subpages = ['tab-webview-subpage-remind.html', 'tab-webview-subpage-note.html', 'tab-webview-subpage-setting.html'];
 			var subpage_style = {
 				top: '45px',
