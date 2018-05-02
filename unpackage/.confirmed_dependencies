@@ -1,48 +1,48 @@
 {
-	"index.html": {
-		"href": "index.html",
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"tab-webview-subpage-about.html",
-			"tab-webview-subpage-setting.html",
-			"tab-webview-subpage-remind.html"
-		],
-		"refer": [
-			"tab-webview-subpage-about.html",
-			"tab-webview-subpage-setting.html",
-			"tab-webview-subpage-chat.html",
-			"tab-webview-subpage-contact.html",
-			"tab-webview-subpage-remind.html",
-			"tab-webview-subpage-note.html",
-			"guide.html",
-			"add.html"
-		],
-		"priority": 0
-	},
-	"tab-webview-subpage-setting.html": {
-		"refer": [
-			"test.html",
-			"reg.html",
-			"login.html",
-			"login/login.html",
-			"login/reg.html"
-		]
-	},
-	"reg.html": {
-		"refer": [
-			"login.html"
-		]
-	},
-	"login/login.html": {
-		"refer": [
-			"index.html",
-			"login/reg.html"
-		]
-	},
-	"login/reg.html": {
-		"refer": [
-			"login/login.html"
-		]
-	}
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "tab-webview-subpage-about.html",
+      "tab-webview-subpage-setting.html",
+      "tab-webview-subpage-remind.html"
+    ],
+    "refer": [
+      "tab-webview-subpage-about.html",
+      "tab-webview-subpage-setting.html",
+      "tab-webview-subpage-chat.html",
+      "tab-webview-subpage-contact.html",
+      "tab-webview-subpage-remind.html",
+      "tab-webview-subpage-note.html",
+      "guide.html",
+      "add.html"
+    ],
+    "priority": 0
+  },
+  "tab-webview-subpage-setting.html": {
+    "refer": [
+      "test.html",
+      "reg.html",
+      "login.html",
+      "login/login.html",
+      "login/reg.html"
+    ]
+  },
+  "reg.html": {
+    "refer": [
+      "login.html"
+    ]
+  },
+  "login/login.html": {
+    "refer": [
+      "index.html",
+      "login/reg.html"
+    ]
+  },
+  "login/reg.html": {
+    "refer": [
+      "login/login.html"
+    ]
+  }
 }
