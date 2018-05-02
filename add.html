@@ -99,7 +99,7 @@
 								
 								<div class="mui-button-row">
 									<button class="mui-btn mui-btn-primary" type="button" onclick="addNote()">添加</button>
-									<!--<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>-->
+									<button class="mui-btn mui-btn-primary" type="button" onclick="ocr()">OCR</button>
 								</div>
 							</form>
 						</div>
@@ -121,7 +121,7 @@
 			        var list = plus.webview.currentWebview().opener();  
 			        //console.log(list.toString());
 			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新  
-			        mui.fire(list, 'refresh1');  
+			        mui.fire(list, 'refresh');  
 			        //返回true,继续页面关闭逻辑  
 			        return true;  
 			    }  
@@ -236,6 +236,13 @@
 				info[attr1] = plus.storage.getItem('uToken');
 				info[attr2] = plus.storage.getItem('uId'); 
 				info[attr3] = document.getElementById("nTitle").value;
+				//判断登录
+				
+				if (info[attr2] == null)
+				{
+					plus.nativeUI.toast('还没有登录呢！~');	
+					return;
+				}
 				//标题空值判断
 				if (info[attr3] == "")
 				{
@@ -301,6 +308,11 @@
 				info[attr1] = plus.storage.getItem('uToken');
 				info[attr2] = plus.storage.getItem('uId'); 
 				info[attr3] = document.getElementById("rTitle").value;
+				if (info[attr2] == null)
+				{
+					plus.nativeUI.toast('还没有登录呢！~');	
+					return;
+				}
 				//标题空值判断
 				if (info[attr3] == "")
 				{
@@ -354,6 +366,10 @@
 				        plus.nativeUI.toast('异常！');
 				    }
 				}				
+			}
+			
+			function ocr(){
+					
 			}
 		</script>
 	</body>
