@@ -45,7 +45,7 @@
 						<a class="mui-navigate-right " href="#">添加日程</a>
 						<div class="mui-collapse-content">
 							<a href="ttst.html"></a>
-							<form class="mui-input-group">
+							<!--<form class="mui-input-group">-->
 								<div class="mui-input-row">
 									<label>标题</label>
 									<input type="text" id = "rTitle"  class=" mui-input-speech mui-input-clear" placeholder="输入日程标题">
@@ -76,14 +76,14 @@
 									<button class="mui-btn mui-btn-primary" type="button" onclick="addRemind()">确认</button>
 									<!--<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>-->
 								</div>
-							</form>
+							<!--</form>-->
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">添加笔记</a>
 						<div class="mui-collapse-content">
-							<form class="mui-input-group">
-								<div class="mui-input-row">
+<!--							<div class="mui-input-group">
+-->								<div class="mui-input-row">
 									<label>标题</label>
 									<input type="text" id = "nTitle"  class=" mui-input-speech mui-input-clear" placeholder="输入日程标题">
 								</div>
@@ -93,19 +93,26 @@
 								</div>
 								
 								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
-					                <textarea id="Notetextarea" rows="12" placeholder="笔记内容" class="mui-input-speech mui-input-clear"></textarea>
+					                <textarea id="Notetextarea" rows="9" placeholder="笔记内容" class="mui-input-speech mui-input-clear"></textarea>
 					            </div>
-								
-								
-								<div class="mui-button-row">
-									<button class="mui-btn mui-btn-primary" type="button" onclick="addNote()">添加</button>
-									<button class="mui-btn mui-btn-primary" type="button" onclick="ocr()">OCR</button>
+								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
+									<form method="post" action="http://up.qiniu.com/" enctype="multipart/form-data" target="nm_iframe">
+										<input type="hidden" name="token" value="c0wWABqs6HQWZFcnVwXWGAo3_lAUOEkucASPdQq7:ZC7taNYt9L3imZ7SIXRwZQ_BlGE=:eyJzY29wZSI6InBob3RvIiwiZGVhZGxpbmUiOjE1NDYyNzU2NjF9">
+									 	OCR 图片识别<br/><input  type="file" name="file" style="width:250px";>
+									 	<input style="float: right; height: 30px; font-size: 15px;" type="submit" value="↑" onclick="sss()"/>
+									</form>
 								</div>
-							</form>
+								<div class="mui-button-row" style="margin: 10px 5px; height: auto;">
+									<button class="mui-btn mui-btn-primary" type="button" onclick="Tocr()">OCR</button>	
+									<button class="mui-btn mui-btn-primary" type="button" onclick="addNote()">添加</button>							
+													
+								</div>
+							<!--</div>-->								
 						</div>
 					</li>
 				</ul>
 			</div>
+			<iframe id="id_iframe" name="nm_iframe" style="display: none;" ></iframe>  
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.picker.min.js"></script>
@@ -114,6 +121,81 @@
 				//swipeBack:true //启用右滑关闭功能
 			});
 			
+			function sss()
+			{
+				plus.nativeUI.toast('正在上传……！~');
+			}
+			//ocr 模块
+			function Tocr(){
+				//plus.nativeUI.toast('ocr~');
+				var path = window.frames["nm_iframe"].document.getElementsByTagName("pre")[0].innerHTML;
+				console.log(path);
+				//转为 json 对象取值
+				var oPath =  JSON.parse(path);
+				//输出 key
+				var dPath = oPath['hash'];
+				console.log(dPath);
+				if(dPath == "Fto5o-5ea0sNMlW_75VgGJCv2AcJ")
+				{
+					plus.nativeUI.toast('换张图片试试？~');
+					
+				}
+				else	{
+					//拼接字符串，发送请求
+					var durl= "http://oi4ty6vxc.bkt.clouddn.com/"+ dPath;
+					console.log(durl);
+					
+					//发送请求
+					var xhr = new plus.net.XMLHttpRequest();
+					//预处理请求
+					xhr.open("POST", "http://dstantside.com/Sdnote/api/Sdnote/orcapi");
+					plus.nativeUI.toast("请求处理中……请耐心等待！~");
+					//处理值
+					var user = {};
+					var attr1 = "Token";
+					var attr2 = "url";
+					user[attr1] = plus.storage.getItem('uToken');
+					user[attr2] = durl;
+					
+					xhr.setRequestHeader('Content-Type','application/json');
+					
+					xhr.send(user);
+					
+					xhr.onreadystatechange = function (){
+						if ( xhr.status == 200 ) {
+							console.log("xhr请求成功："+xhr.responseText);
+							//格式化获取的值
+							var oText = eval('('+xhr.responseText+')');
+							var re = eval('oText.'+'Results');  
+							var uState = eval('oText.'+'State')
+							console.log(uState);
+							var Drea = re;
+							
+							if (Drea == "")
+							{
+								plus.nativeUI.toast('处理异常，请重试或手动录入！~');
+								
+							}
+							else
+							{
+								plus.nativeUI.toast("处理成功！~");
+								document.getElementById("Notetextarea").value = Drea;
+							}
+							
+						} 
+						else 
+						{
+							//
+							plus.nativeUI.toast("请求异常,请检查网络！");
+							//console.log( "xhr请求失败："+xhr.status );
+						}
+					}
+					
+				}
+			}
+			
+			
+				
 			//返回刷新预处理
 			mui.init({  
 			    beforeback: function() {  
