@@ -98,7 +98,7 @@
 								<div class="mui-input-row" style="margin: 10px 5px; height: auto;">
 									<form method="post" action="http://up.qiniu.com/" enctype="multipart/form-data" target="nm_iframe">
 										<input type="hidden" name="token" value="c0wWABqs6HQWZFcnVwXWGAo3_lAUOEkucASPdQq7:ZC7taNYt9L3imZ7SIXRwZQ_BlGE=:eyJzY29wZSI6InBob3RvIiwiZGVhZGxpbmUiOjE1NDYyNzU2NjF9">
-									 	OCR 图片识别<br/><input  type="file" name="file" style="width:250px";>
+									 	OCR 图片识别<br/><input id="uuu" type="file" name="file" style="width:250px";>
 									 	<input style="float: right; height: 30px; font-size: 15px;" type="submit" value="↑" onclick="sss()"/>
 									</form>
 								</div>
@@ -123,7 +123,15 @@
 			
 			function sss()
 			{
-				plus.nativeUI.toast('正在上传……！~');
+				var tuu =document.getElementById("uuu").value;
+				if(tuu !== "")
+				{
+					plus.nativeUI.toast('正在上传……！~');
+				}
+				else
+				{
+					plus.nativeUI.toast('你没有选择图片啊！~');
+				}
 			}
 			//ocr 模块
 			function Tocr(){
