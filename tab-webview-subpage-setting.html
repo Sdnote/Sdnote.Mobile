@@ -50,9 +50,9 @@
 					</a>
 				</li>
 			</ul>
-			<ul class="mui-table-view" style="margin-top: 25px;">
+			<ul id="out" class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a style="text-align: center;color: #FF3B30;" onclick="out()">
+					<a  style="text-align: center;color: #FF3B30;" onclick="out()">
 						退出登录
 					</a>
 				</li>
@@ -83,6 +83,8 @@
 				target.style.display="none";
 				var target = document.getElementById("l_log");
 				target.style.display="none";	
+				var target = document.getElementById("out");
+				target.style.display="block";	
 				
 			}
 			else
@@ -95,6 +97,8 @@
 				target.style.display="block";
 				var target = document.getElementById("l_log");
 				target.style.display="block";	
+				var target = document.getElementById("out");
+				target.style.display="none";	
 			}
 		});
 		
